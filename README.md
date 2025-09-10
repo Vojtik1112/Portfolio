@@ -1,72 +1,122 @@
-Vojta Novák | Personal Portfolio Website
+# Vojta Novák – Personal Portfolio Website
 
-This repository contains the source code for my personal portfolio website. It's a single-page application designed to showcase my skills, projects, and professional experience as an IT student specializing in Software Development and Cloud Computing. The website is fully responsive and features a modern, dark-themed design with interactive elements.
+A modern, single-page personal portfolio site showcasing my skills, projects, experience and contact details. The site focuses on clarity, subtle interactivity, responsive design and performance.
 
-Features
+> Status: Active – continuously refined as I learn and build new things.
 
-Home Section: A welcoming hero section that introduces me and provides links to my GitHub and LinkedIn profiles, as well as an option to download my resume.
+## Live Demo
 
-About Me: A brief introduction to my background, passion for technology, and key interests.
+Visit: https://vojtik1112.github.io/Portfolio (GitHub Pages)
 
-Skills: A comprehensive list of my technical skills, categorized into Languages, Frameworks & Libraries, and Databases & Tools.
+(If the live link is different, update this section.)
 
-Projects: A curated selection of my projects, each with a short description, the technologies used, and links to the live demo and source code.
+## Features
 
-Contact: A clear call to action for potential employers and collaborators to get in touch with me via email.
+- **Hero / Home Section** – Intro, concise tagline, quick access buttons (GitHub, LinkedIn, Resume download).
+- **About Me** – Background, learning focus, interests in technology.
+- **Skills** – Categorised list (Languages, Frameworks & Libraries, Databases & Tools).
+- **Projects Showcase** – Each project highlights: description, tech stack, live demo link (if available) and source code link.
+- **Contact Section** – Clear call to action with email link.
+- **Responsive Layout** – Optimised for desktop, tablet and mobile.
+- **Visual & Interactive Enhancements**:
+  - WebGL liquid / glass-like animated background reacting to cursor movement.
+  - Section fade-in + upward slide scroll animations.
+  - Magnetic / attractor effect buttons in hero & contact areas.
 
-Responsive Design: The layout is optimized for a seamless experience across all devices, from desktops to mobile phones.
+## Tech Stack
 
-Interactive Elements:
+| Layer | Technologies |
+|-------|--------------|
+| Markup | HTML5 |
+| Styling | Tailwind CSS (utility-first), Custom CSS utilities (if needed) |
+| Scripting | Vanilla JavaScript (ES6+) |
+| Graphics / Effects | WebGL (custom shader / canvas logic) |
+| Assets | Google Fonts (Poppins, Lato), Font Awesome Icons |
+| Tooling | Git & GitHub |
 
-WebGL Liquid Background: A dynamic, interactive liquid-glass simulation in the background that responds to mouse movement.
+## Repository Structure (Indicative)
+```
+Portfolio/
+├── index.html
+├── assets/           # Images, icons, media
+├── css/              # Tailwind build or additional custom styles
+├── js/               # Interaction, animations, WebGL scripts
+├── favicon.ico
+└── README.md
+```
+(Adjust this tree if the actual structure differs.)
 
-Fade-in Animations: Sections gracefully fade in and slide up as you scroll down the page.
+## Getting Started
 
-Magnetic Buttons: Interactive buttons in the hero and contact sections that create a "magnetic" effect with the mouse cursor.
+### 1. Clone
+```bash
+git clone https://github.com/Vojtik1112/Portfolio.git
+cd Portfolio
+```
 
-Technologies Used
+### 2. Open
+If this is a static build (no bundler):
+```text
+Open index.html in your browser
+```
+You can simply double-click `index.html` or serve it locally (recommended for correct relative paths):
+```bash
+# Python 3 simple server (choose one)
+python -m http.server 5173
+# or
+python3 -m http.server 5173
 
-This website is built with a focus on modern web technologies and a clean, efficient codebase.
+# Then visit: http://localhost:5173
+```
 
-Frontend
+### 3. (Optional) Tailwind Workflow
+If Tailwind is used via CDN you can skip this. If a build pipeline exists, a typical workflow might look like:
+```bash
+# Install dependencies (if package.json exists)
+npm install
+# Watch & build Tailwind
+npx tailwindcss -i ./src/input.css -o ./css/tailwind.css --watch
+```
+Update this section to reflect the actual setup if different.
 
-HTML5: The standard markup language for creating web pages.
+## Customization
 
-Tailwind CSS: A utility-first CSS framework for rapid UI development.
+- Replace placeholder project cards in the Projects section with new repositories or achievements.
+- Adjust the skills JSON/array or markup to dynamically render categories (if scripted).
+- Tweak animation durations / easing inside the JS files.
+- Modify shader or canvas parameters (WebGL effect) for different visual behaviour.
 
-JavaScript (ES6+): Used for all the dynamic and interactive features of the website.
+## Performance Tips
 
-Libraries and APIs
+- Compress large images (use WebP or AVIF where possible).
+- Defer or lazy-load non-critical scripts.
+- Limit canvas draw calls or resolution on low-power devices.
+- Prefer system fonts fallback if Google Fonts fail to load.
 
-Google Fonts: For typography, using the "Poppins" and "Lato" fonts.
+## Roadmap / Planned Enhancements
 
-Font Awesome: For icons used throughout the website.
+- Add dark / light theme toggle.
+- Expand project filtering or tagging.
+- Integrate a contact form with validation (and optionally a serverless endpoint).
+- Replace static skill list with JSON-driven generation.
+- Accessibility pass: focus states, reduced motion mode, ARIA labels.
 
-WebGL: The graphics API used to create the interactive liquid background effect.
+(Adjust or check off items as they are completed.)
 
-Development Tools
+## Contributing
 
-Git & GitHub: For version control and hosting the repository.
+This is a personal project, but suggestions and improvements are welcome. Feel free to open an issue or fork and submit a pull request.
 
-How To Use
+## License
 
-To view the website, you can:
+If you intend to license the project publicly, add a LICENSE file (e.g. MIT). Until then, assume all rights reserved by the author.
 
-Clone the repository:
+## Contact
 
-code
-Bash
-download
-content_copy
-expand_less
+Email: [vojtechnovak84@gmail.com](mailto:vojtechnovak84@gmail.com)
+GitHub: https://github.com/Vojtik1112
+LinkedIn: (add your profile link here)
 
-git clone https://github.com/your-username/your-repository-name.git
+---
 
-Open index.html in your browser:
-Navigate to the cloned directory and open the index.html file in your web browser.
-
-Alternatively, you can access the live version of the website at your-website-url.com.
-
-Contact
-
-If you have any questions or would like to connect, please feel free to reach out to me at vojtechnovak84@gmail.com.
+Thanks for visiting the portfolio repository! If you have feedback or opportunities, feel free to reach out.
