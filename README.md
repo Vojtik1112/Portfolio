@@ -8,14 +8,12 @@ A modern, single-page personal portfolio site showcasing my skills, projects, ex
 
 Visit: https://vojtik1112.github.io/Portfolio (GitHub Pages)
 
-(If the live link is different, update this section.)
-
 ## Features
 
 - **Hero / Home Section** – Intro, concise tagline, quick access buttons (GitHub, LinkedIn, Resume download).
 - **About Me** – Background, learning focus, interests in technology.
 - **Skills** – Categorised list (Languages, Frameworks & Libraries, Databases & Tools).
-- **Projects Showcase** – Each project highlights: description, tech stack, live demo link (if available) and source code link.
+- **Projects Showcase** – Each project highlights: description, tech stack, live demo link and source code link.
 - **Contact Section** – Clear call to action with email link.
 - **Responsive Layout** – Optimised for desktop, tablet and mobile.
 - **Visual & Interactive Enhancements**:
@@ -44,8 +42,6 @@ Portfolio/
 ├── favicon.ico
 └── README.md
 ```
-(Adjust this tree if the actual structure differs.)
-
 ## Getting Started
 
 ### 1. Clone
