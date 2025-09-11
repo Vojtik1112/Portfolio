@@ -1,6 +1,14 @@
+:root {
+    --accent-color: #7c3aed;
+}
+
+html {
+    background-color: #000000;
+}
+
 body {
     font-family: 'Lato', sans-serif;
-    background-color: #000000;
+    background-color: transparent;
     color: #d1d5db; 
 }
 
@@ -10,22 +18,15 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.025em;
 }
 
-p { 
-    line-height: 1.75; 
-}
+p { line-height: 1.75; }
 
 .fade-in-section {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+.fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
 
-.fade-in-section.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Dark Glass Card Style */
 .glass-card-dark {
     background: rgba(10, 10, 10, 0.5);
     backdrop-filter: blur(16px);
@@ -33,78 +34,48 @@ p {
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
 }
-
 .glass-card-dark:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-color);
 }
 
-/* Canvas Style */
 #liquid-canvas {
     position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100vh;
+    top: 0; left: 0; width: 100%; height: 100vh;
     z-index: -1;
 }
 
-/* Navigation link hover effect */
-.nav-link { 
-    position: relative; 
-}
-
+.nav-link { position: relative; }
 .nav-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background-color: #ffffff;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+    content: ''; position: absolute; width: 100%; transform: scaleX(0);
+    height: 2px; bottom: -4px; left: 0; background-color: var(--accent-color);
+    transform-origin: bottom right; transition: transform 0.25s ease-out;
 }
+.nav-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
 
-.nav-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+.skill-icon {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem; color: #d1d5db; transition: transform 0.3s ease, color 0.3s ease;
 }
+.skill-icon:hover { transform: translateY(-5px); color: var(--accent-color); }
 
-/* Skill Tag Style */
-.skill-tag { 
-    background-color: rgba(31, 41, 55, 0.8); 
-    color: #d1d5db; 
-    font-weight: 500; 
-    padding: 0.25rem 0.75rem; 
-    border-radius: 9999px; 
-    font-size: 0.875rem; 
-    transition: all 0.2s ease; 
-} 
-
-.skill-tag:hover { 
-    background-color: #374151; 
-    transform: translateY(-2px); 
-}
-
-/* Tech Tag for Projects */
 .tech-tag { 
-    background-color: #1f2937; 
-    color: #d1d5db; 
-    font-size: 0.75rem; 
-    padding: 0.25rem 0.6rem; 
-    border-radius: 5px; 
+    background-color: #1f2937; color: #d1d5db; font-size: 0.75rem; 
+    padding: 0.25rem 0.6rem; border-radius: 5px; 
+}
+.project-btn { 
+    width: 100%; text-align: center; padding: 0.5rem 1rem; border-radius: 9999px; 
+    font-size: 0.875rem; font-weight: 600; transition: background-color 0.3s; 
 }
 
-/* Project Buttons */
-.project-btn { 
-    width: 100%; 
-    text-align: center; 
-    padding: 0.5rem 1rem; 
-    border-radius: 9999px; 
-    font-size: 0.875rem; 
-    font-weight: 600; 
-    transition: background-color 0.3s; 
+.contact-input {
+    background: rgba(20, 20, 20, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px; padding: 0.75rem 1rem; color: #d1d5db;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-input:focus {
+    outline: none; border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
 }
