@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vojta Novák | IT Student Portfolio</title>
     
-    <!-- Tailwind CSS CDN -->
+    <!-- External CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Your Custom Stylesheet -->
@@ -111,8 +107,22 @@
         <!-- Projects Section -->
         <section id="projects" class="py-24 sm:py-32 px-6 container mx-auto fade-in-section">
             <h2 class="text-4xl font-bold text-center mb-16 tracking-tight">Projects</h2>
-            <div class="text-center">
-                <p class="text-lg text-gray-400">I am currently working on new projects. Please check back soon!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="glass-card-dark rounded-xl overflow-hidden">
+                    <img src="https://via.placeholder.com/400x250/111827/FFFFFF?text=Project+Union" alt="Project Union" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Project Union</h3>
+                        <p class="text-gray-400 mb-4 text-sm">A website where students of my school can upload their games and other projects.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">PHP</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://project-union.mzf.cz/" target="_blank" class="project-btn bg-white hover:bg-gray-200 text-black">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more project cards here -->
             </div>
         </section>
 
@@ -146,8 +156,6 @@
       uniform vec2 u_resolution;
       uniform float u_time;
       uniform vec2 u_mouse;
-
-      // Noise functions
       float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123); }
       float noise(vec2 st) {
           vec2 i = floor(st); vec2 f = fract(st);
@@ -165,30 +173,24 @@
           }
           return value;
       }
-
       void main() {
           vec2 st = gl_FragCoord.xy / u_resolution.xy;
           st.x *= u_resolution.x / u_resolution.y;
-          
           vec2 mouse = u_mouse / u_resolution;
           float mouse_dist = distance(st, mouse);
-
           float f = fbm(st * 2.0 - vec2(u_time * 0.05));
           f *= 10.0;
-          f += u_time * 0.1; /* Slow constant flow */
-          f += mouse_dist * -0.5 + 0.5; /* Warp effect */
+          f += u_time * 0.1;
+          f += mouse_dist * -0.5 + 0.5;
           f = fract(f);
-          
           float liquid = smoothstep(0.4, 0.5, f) - smoothstep(0.5, 0.6, f);
-          
           float vignette = 1.0 - length(gl_FragCoord.xy / u_resolution.xy - 0.5) * 0.8;
           liquid *= vignette;
-
           gl_FragColor = vec4(vec3(liquid), 1.0);
       }
     </script>
     
-    <!-- Your Custom JavaScript -->
-    <script src="script.js"></script>
+    <!-- Your Custom JavaScript (Deferred) -->
+    <script src="script.js" defer></script>
 </body>
 </html>
