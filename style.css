@@ -88,3 +88,23 @@ p {
     background-color: #374151; 
     transform: translateY(-2px); 
 }
+
+/* Tech Tag for Projects */
+.tech-tag { 
+    background-color: #1f2937; 
+    color: #d1d5db; 
+    font-size: 0.75rem; 
+    padding: 0.25rem 0.6rem; 
+    border-radius: 5px; 
+}
+
+/* Project Buttons */
+.project-btn { 
+    width: 100%; 
+    text-align: center; 
+    padding: 0.5rem 1rem; 
+    border-radius: 9999px; 
+    font-size: 0.875rem; 
+    font-weight: 600; 
+    transition: background-color 0.3s; 
+}
