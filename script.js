@@ -1,8 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // --- Standard Page Interactivity ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', () => {
+            const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
     });
@@ -16,17 +24,69 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+    if (!prefersReducedMotion) {
+        document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+    } else {
+        document.querySelectorAll('.fade-in-section').forEach(section => section.classList.add('is-visible'));
+    }
 
     // --- Magnetic Buttons ---
-    document.querySelectorAll('[data-magnetic]').forEach(el => {
-        el.addEventListener('mousemove', function(e) {
-            const pos = el.getBoundingClientRect();
-            const x = e.clientX - pos.left - pos.width / 2;
-            const y = e.clientY - pos.top - pos.height / 2;
-            el.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
+    if (!prefersReducedMotion) {
+        document.querySelectorAll('[data-magnetic]').forEach(el => {
+            el.addEventListener('mousemove', function(e) {
+                const pos = el.getBoundingClientRect();
+                const x = e.clientX - pos.left - pos.width / 2;
+                const y = e.clientY - pos.top - pos.height / 2;
+                el.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
+            });
+            el.addEventListener('mouseout', function() { el.style.transform = 'translate(0, 0)'; });
         });
-        el.addEventListener('mouseout', function() { el.style.transform = 'translate(0, 0)'; });
+    }
+
+    // --- Theme Toggle ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            root.classList.add('light');
+            themeToggle?.setAttribute('aria-pressed', 'true');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            document.getElementById('meta-theme-color')?.setAttribute('content', '#f6f8fa');
+        } else {
+            root.classList.remove('light');
+            themeToggle?.setAttribute('aria-pressed', 'false');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            document.getElementById('meta-theme-color')?.setAttribute('content', '#000000');
+        }
+    }
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) applyTheme(storedTheme);
+    themeToggle?.addEventListener('click', () => {
+        const newTheme = root.classList.contains('light') ? 'dark' : 'light';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // --- Background Toggle (WebGL On/Off) ---
+    const bgToggle = document.getElementById('bg-toggle');
+    let bgEnabled = localStorage.getItem('bg-enabled');
+    if (bgEnabled === null) { bgEnabled = 'true'; }
+    function applyBgState(enabled) {
+        if (enabled === 'true') {
+            document.documentElement.classList.remove('no-bg');
+            bgToggle?.setAttribute('aria-pressed', 'true');
+            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-water"></i>');
+        } else {
+            document.documentElement.classList.add('no-bg');
+            bgToggle?.setAttribute('aria-pressed', 'false');
+            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-ban"></i>');
+        }
+    }
+    applyBgState(bgEnabled);
+    bgToggle?.addEventListener('click', () => {
+        bgEnabled = (bgEnabled === 'true') ? 'false' : 'true';
+        localStorage.setItem('bg-enabled', bgEnabled);
+        applyBgState(bgEnabled);
     });
 
     // --- WebGL Liquid Glass Simulation ---
@@ -81,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
 
     const canvas = document.getElementById('liquid-canvas');
-    if (canvas) {
+    if (canvas && bgEnabled === 'true') {
         const gl = canvas.getContext('webgl');
 
         if (!gl) {
@@ -145,7 +205,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 mousePos.y = e.clientY;
             });
 
-            render();
+            if (bgEnabled === 'true') { render(); }
         }
+    }
+
+    // Re-run background init if toggled back on (simple approach: reload)
+    bgToggle?.addEventListener('click', () => {
+        if (bgEnabled === 'true' && !canvas.hasAttribute('data-initialized')) {
+            // simplest: reload to re-init GL (keeps code small)
+            location.reload();
+        }
+    });
+
+    // --- Dynamic Year ---
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // --- Simple Client-side Validation Enhancement ---
+    const contactForm = document.querySelector('form[action*="formspree"]');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            const name = contactForm.querySelector('#contact-name');
+            const email = contactForm.querySelector('#contact-email');
+            const message = contactForm.querySelector('#contact-message');
+            let valid = true;
+            [name, email, message].forEach(field => {
+                if (!field.value.trim()) {
+                    field.setAttribute('aria-invalid', 'true');
+                    field.classList.add('ring-2', 'ring-red-500');
+                    valid = false;
+                } else {
+                    field.removeAttribute('aria-invalid');
+                    field.classList.remove('ring-2', 'ring-red-500');
+                }
+            });
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
     }
 });

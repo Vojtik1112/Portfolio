@@ -1,6 +1,6 @@
 # Vojta Novák – Personal Portfolio Website
 
-A modern, single-page personal portfolio site showcasing my skills, projects, experience and contact details. The site focuses on clarity, subtle interactivity, responsive design and performance.
+A modern, single-page personal portfolio site showcasing my skills, projects, experience and contact details. The site focuses on clarity, subtle interactivity, responsive design, accessibility and performance.
 
 > Status: Active – continuously refined as I learn and build new things.
 
@@ -17,9 +17,12 @@ Visit: https://vojtik1112.github.io/Portfolio (GitHub Pages)
 - **Contact Section** – Clear call to action with email link.
 - **Responsive Layout** – Optimised for desktop, tablet and mobile.
 - **Visual & Interactive Enhancements**:
-  - WebGL liquid / glass-like animated background reacting to cursor movement.
-  - Section fade-in + upward slide scroll animations.
-  - Magnetic / attractor effect buttons in hero & contact areas.
+  - WebGL liquid / glass-like animated background reacting to cursor movement (toggleable).
+  - Section fade-in + upward slide scroll animations (disabled automatically for reduced motion users).
+  - Magnetic / attractor effect buttons in hero & contact areas (also disabled when prefers-reduced-motion is set).
+  - Light/Dark theme toggle (persisted in localStorage).
+  - Background animation on/off toggle for performance or energy saving.
+  - Accessible skip-to-content link, improved focus rings, labelled form fields.
 
 ## Tech Stack
 
@@ -82,20 +85,29 @@ Update this section to reflect the actual setup if different.
 - Tweak animation durations / easing inside the JS files.
 - Modify shader or canvas parameters (WebGL effect) for different visual behaviour.
 
-## Performance Tips
+## Performance & Accessibility Improvements
 
+- Lazy loading & async decoding of non-critical images.
+- Reduced motion handling: disables animations & magnetic effects if user sets OS preference.
+- Toggle to disable background WebGL effect (saves battery / CPU).
+- Theme-color meta updates with theme for better mobile UI integration.
+- Form accessibility: explicit labels (visually hidden), ARIA states, focus rings.
+- Skip link for keyboard navigation.
+- Structured data (JSON-LD Person schema).
+
+Additional tips you can still apply:
 - Compress large images (use WebP or AVIF where possible).
-- Defer or lazy-load non-critical scripts.
-- Limit canvas draw calls or resolution on low-power devices.
-- Prefer system fonts fallback if Google Fonts fail to load.
+- Defer or split non-critical scripts (currently minimal JS footprint).
+- Consider serving a low-power static gradient if WebGL unavailable.
 
 ## Roadmap / Planned Enhancements
 
-- Add dark / light theme toggle.
-- Expand project filtering or tagging.
-- Integrate a contact form with validation (and optionally a serverless endpoint).
-- Replace static skill list with JSON-driven generation.
-- Accessibility pass: focus states, reduced motion mode, ARIA labels.
+- Project filtering / tagging UI (by tech stack).
+- Dynamic skills rendering from JSON data file.
+- Additional projects with code links.
+- MIT License file.
+- Automated Lighthouse CI (GitHub Action) for performance & a11y budgets.
+- Offline support (basic Service Worker + asset caching).
 
 (Adjust or check off items as they are completed.)
 

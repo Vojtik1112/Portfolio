@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vojta Novák | IT Student Portfolio</title>
+    <meta name="description" content="Portfolio IT studenta Vojty Nováka – projekty, dovednosti, kontakt. Front-end, WebGL, moderní webové technologie.">
+    <meta name="theme-color" content="#000000" id="meta-theme-color">
+    <link rel="canonical" href="https://vojtik1112.github.io/Portfolio/">
+    <meta property="og:title" content="Vojta Novák – Portfolio">
+    <meta property="og:description" content="Moje projekty, technologie a kontaktní údaje. Podívejte se na práci a ozvěte se.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vojtik1112.github.io/Portfolio/">
+    <meta property="og:image" content="Images/vojta-novak.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vojta Novák – Portfolio">
+    <meta name="twitter:description" content="Portfolio IT studenta – projekty a dovednosti.">
+    <meta name="twitter:image" content="Images/vojta-novak.png">
     
     <!-- External CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,29 +29,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="antialiased">
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <canvas id="liquid-canvas"></canvas>
 
     <!-- Header -->
-    <header class="bg-black/50 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800/50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-bold text-white tracking-wider">Vojta Novák</a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
+    <header class="bg-black/50 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800/50" role="banner">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center" aria-label="Main navigation">
+            <a href="#home" class="text-2xl font-bold text-white tracking-wider" aria-label="Homepage">Vojta Novák</a>
+            <div class="hidden md:flex items-center space-x-8" role="menubar">
+                <a href="#about" class="nav-link" role="menuitem">About</a>
+                <a href="#skills" class="nav-link" role="menuitem">Skills</a>
+                <a href="#projects" class="nav-link" role="menuitem">Projects</a>
+                <a href="#contact" class="nav-link" role="menuitem">Contact</a>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-2xl text-gray-300"><i class="fas fa-bars"></i></button>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="text-gray-300 hover:text-white transition-colors" aria-pressed="false" aria-label="Toggle light / dark theme"><i class="fas fa-moon"></i></button>
+                <button id="bg-toggle" class="text-gray-300 hover:text-white transition-colors" aria-pressed="true" aria-label="Toggle animated background" title="Toggle background animation"><i class="fas fa-water"></i></button>
+                <button id="mobile-menu-button" class="md:hidden text-2xl text-gray-300" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><i class="fas fa-bars"></i></button>
+            </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-black/80 backdrop-blur-lg">
-            <a href="#about" class="block py-3 px-6 text-sm">About</a>
-            <a href="#skills" class="block py-3 px-6 text-sm">Skills</a>
-            <a href="#projects" class="block py-3 px-6 text-sm">Projects</a>
-            <a href="#contact" class="block py-3 px-6 text-sm">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-black/80 backdrop-blur-lg" role="menu">
+            <a href="#about" class="block py-3 px-6 text-sm" role="menuitem">About</a>
+            <a href="#skills" class="block py-3 px-6 text-sm" role="menuitem">Skills</a>
+            <a href="#projects" class="block py-3 px-6 text-sm" role="menuitem">Projects</a>
+            <a href="#contact" class="block py-3 px-6 text-sm" role="menuitem">Contact</a>
         </div>
     </header>
 
-    <main class="relative z-10">
+    <main id="main-content" class="relative z-10" tabindex="-1">
         <!-- Hero Section -->
         <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6">
             <div class="relative z-10">
@@ -47,8 +64,8 @@
                 <p class="text-xl md:text-2xl text-gray-300 max-w-3xl" style="text-shadow: 0 1px 10px rgba(0,0,0,0.5);">IT Student</p>
                 <p class="text-lg md:text-xl text-gray-400 mt-4 italic mb-8" style="text-shadow: 0 1px 10px rgba(0,0,0,0.5);">"Genius, Billionaire, Playboy, Philanthropist"</p>
                 <div class="flex justify-center space-x-6 mb-10 text-3xl">
-                    <a href="https://github.com/Vojtik1112" target="_blank" aria-label="GitHub Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110"><i class="fab fa-github"></i></a>
-                    <a href="https://www.instagram.com/schizvojta/" target="_blank" aria-label="Instagram Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/Vojtik1112" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/schizvojta/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"><i class="fab fa-instagram"></i></a>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#projects" data-magnetic class="bg-white text-black font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition-all duration-300 transform">View My Work</a>
@@ -61,7 +78,7 @@
         <section id="about" class="py-24 sm:py-32 px-6 container mx-auto fade-in-section">
             <div class="grid md:grid-cols-5 gap-12 items-center">
                 <div class="md:col-span-2 w-full max-w-sm mx-auto">
-                   <div class="glass-card-dark p-2 rounded-xl shadow-lg"><img src="Images/vojta-novak.png" alt="Vojta Novák" class="rounded-lg w-full"></div>
+                   <div class="glass-card-dark p-2 rounded-xl shadow-lg"><img src="Images/vojta-novak.png" alt="Portrait photo of Vojta Novák" class="rounded-lg w-full" loading="lazy" decoding="async"></div>
                 </div>
                 <div class="md:col-span-3">
                     <h2 class="text-4xl font-bold mb-6 tracking-tight">About Me</h2>
@@ -105,14 +122,17 @@
             <h2 class="text-4xl font-bold text-center mb-16 tracking-tight">Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="glass-card-dark rounded-xl overflow-hidden">
-                    <img src="Images/project-union.png" alt="Project Union" class="w-full h-48 object-cover">
+                    <img src="Images/project-union.png" alt="Screenshot of Project Union website" class="w-full h-48 object-cover" loading="lazy" decoding="async">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold mb-2">Project Union</h3>
                         <p class="text-gray-400 mb-4 text-sm">A website where students of my school can upload their games and other projects.</p>
                         <div class="flex flex-wrap gap-2 mb-6">
                             <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">PHP</span>
                         </div>
-                        <div class="flex space-x-4"><a href="https://project-union.mzf.cz/" target="_blank" class="project-btn bg-white hover:bg-gray-200 text-black">Live Demo</a></div>
+                        <div class="flex space-x-4">
+                            <a href="https://project-union.mzf.cz/" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo of Project Union in new tab">Live Demo</a>
+                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code repository for Project Union (placeholder)">Code</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,25 +144,52 @@
                 <div class="glass-card-dark p-8 md:p-12">
                     <h2 class="text-4xl font-bold mb-4 tracking-tight">Get In Touch</h2>
                     <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">I'm always open to new opportunities. Feel free to send me a message.</p>
-                    <form action="https://formspree.io/f/meolnbbq" method="POST" class="text-left max-w-xl mx-auto">
+                    <form action="https://formspree.io/f/meolnbbq" method="POST" class="text-left max-w-xl mx-auto" novalidate>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <input type="text" name="name" placeholder="Your Name" class="contact-input" required>
-                            <input type="email" name="email" placeholder="Your Email" class="contact-input" required>
+                            <div>
+                                <label for="contact-name" class="visually-hidden">Your Name</label>
+                                <input id="contact-name" type="text" name="name" placeholder="Your Name" class="contact-input" autocomplete="name" required>
+                            </div>
+                            <div>
+                                <label for="contact-email" class="visually-hidden">Your Email</label>
+                                <input id="contact-email" type="email" name="email" placeholder="Your Email" class="contact-input" autocomplete="email" required>
+                            </div>
                         </div>
-                        <textarea name="message" placeholder="Your Message" rows="5" class="contact-input w-full mb-6" required></textarea>
-                        <button type="submit" class="w-full bg-white text-black font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition-all duration-300">Send Message</button>
+                        <div class="mb-6">
+                            <label for="contact-message" class="visually-hidden">Your Message</label>
+                            <textarea id="contact-message" name="message" placeholder="Your Message" rows="5" class="contact-input w-full" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-white text-black font-semibold py-3 px-8 rounded-full hover:bg-gray-200 transition-all duration-300" aria-label="Send Message">Send Message</button>
+                        <p class="text-xs text-gray-500 mt-4" id="form-hint">All fields are required. You can also email me directly.</p>
                     </form>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="py-8 text-center text-gray-500 border-t border-gray-800/20">
-        <p>&copy; 2025 Vojta Novák. All Rights Reserved.</p>
-    </footer>
+        <!-- Footer -->
+        <footer class="py-8 text-center text-gray-500 border-t border-gray-800/20" role="contentinfo">
+                <p>&copy; <span id="year"></span> Vojta Novák. All Rights Reserved.</p>
+        </footer>
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Vojta Novák",
+            "jobTitle": "IT Student",
+            "url": "https://vojtik1112.github.io/Portfolio/",
+            "image": "https://vojtik1112.github.io/Portfolio/Images/vojta-novak.png",
+            "sameAs": [
+                "https://github.com/Vojtik1112",
+                "https://www.instagram.com/schizvojta/"
+            ]
+        }
+        </script>
 
     <!-- Main script -->
     <script src="script.js" defer></script>
+        <noscript><div style="position:fixed;top:0;left:0;width:100%;background:#111;color:#fff;text-align:center;padding:.5rem;z-index:999;">JavaScript is disabled – some interactive & visual features are unavailable.</div></noscript>
 </body>
 </html>
