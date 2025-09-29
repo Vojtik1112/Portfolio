@@ -12,6 +12,9 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vojtik1112.github.io/Portfolio/">
     <meta property="og:image" content="Images/vojta-novak.png">
+    <meta name="robots" content="index,follow">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="color-scheme" content="dark light">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Vojta Novák – Portfolio">
     <meta name="twitter:description" content="Portfolio IT studenta – projekty a dovednosti.">
@@ -89,53 +92,25 @@
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="py-24 sm:py-32 fade-in-section">
+        <section id="skills" class="py-24 sm:py-32 fade-in-section" aria-labelledby="skills-heading">
             <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold text-center mb-16 tracking-tight">Technologies I Use</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="glass-card-dark p-8 text-center"><h3 class="text-2xl font-semibold mb-6">Languages</h3>
-                        <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center">
-                            <div class="skill-icon"><i class="devicon-cplusplus-plain text-5xl"></i><span>C++</span></div>
-                            <div class="skill-icon"><i class="devicon-csharp-plain text-5xl"></i><span>C#</span></div>
-                            <div class="skill-icon"><i class="devicon-html5-plain text-5xl"></i><span>HTML5</span></div>
-                            <div class="skill-icon"><i class="devicon-css3-plain text-5xl"></i><span>CSS3</span></div>
-                            <div class="skill-icon"><i class="devicon-javascript-plain text-5xl"></i><span>JavaScript</span></div>
-                        </div>
-                    </div>
-                    <div class="glass-card-dark p-8 text-center"><h3 class="text-2xl font-semibold mb-6">Frameworks</h3>
-                        <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center">
-                            <div class="skill-icon"><i class="devicon-bootstrap-plain text-5xl"></i><span>Bootstrap</span></div>
-                        </div>
-                    </div>
-                    <div class="glass-card-dark p-8 text-center"><h3 class="text-2xl font-semibold mb-6">Tools</h3>
-                        <div class="flex flex-wrap gap-x-6 gap-y-8 justify-center">
-                            <div class="skill-icon"><i class="devicon-git-plain text-5xl"></i><span>Git</span></div>
-                            <div class="skill-icon"><i class="devicon-github-original text-5xl"></i><span>GitHub</span></div>
-                        </div>
-                    </div>
+                <h2 id="skills-heading" class="text-4xl font-bold text-center mb-16 tracking-tight">Technologies I Use</h2>
+                <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8" aria-live="polite" aria-busy="true">
+                    <div class="col-span-full text-center text-gray-400 text-sm">Loading skills…</div>
                 </div>
+                <noscript>
+                    <p class="text-center text-sm text-gray-500 mt-6">Enable JavaScript to view dynamic categorized skills.</p>
+                </noscript>
             </div>
         </section>
 
         <!-- Projects Section -->
-        <section id="projects" class="py-24 sm:py-32 px-6 container mx-auto fade-in-section">
-            <h2 class="text-4xl font-bold text-center mb-16 tracking-tight">Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card-dark rounded-xl overflow-hidden">
-                    <img src="Images/project-union.png" alt="Screenshot of Project Union website" class="w-full h-48 object-cover" loading="lazy" decoding="async">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Project Union</h3>
-                        <p class="text-gray-400 mb-4 text-sm">A website where students of my school can upload their games and other projects.</p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">PHP</span>
-                        </div>
-                        <div class="flex space-x-4">
-                            <a href="https://project-union.mzf.cz/" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo of Project Union in new tab">Live Demo</a>
-                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code repository for Project Union (placeholder)">Code</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <section id="projects" class="py-24 sm:py-32 px-6 container mx-auto fade-in-section" aria-labelledby="projects-heading">
+            <h2 id="projects-heading" class="text-4xl font-bold text-center mb-10 tracking-tight">Projects</h2>
+            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-10 text-sm">Below is a selection of personal & collaborative work. Filter by technology focus. New projects are added as I build & learn.</p>
+            <div id="project-filters" class="flex flex-wrap justify-center gap-3 mb-12" aria-label="Project filters" role="toolbar"></div>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite" aria-busy="true"></div>
+            <noscript><p class="text-center text-red-400 mt-8">Enable JavaScript to view dynamic project listings.</p></noscript>
         </section>
 
         <!-- Contact Section -->

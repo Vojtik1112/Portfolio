@@ -244,4 +244,117 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // --- Data Driven Projects ---
+    const projectsGrid = document.getElementById('projects-grid');
+    const filtersBar = document.getElementById('project-filters');
+    let activeFilter = 'All';
+    let projectData = [];
+
+    function createProjectCard(p) {
+        const card = document.createElement('article');
+        card.className = 'glass-card-dark rounded-xl overflow-hidden flex flex-col';
+        card.setAttribute('data-tech', p.tech.join(','));
+        card.innerHTML = `
+            <div class="relative w-full h-48 overflow-hidden bg-black">
+                <img src="${p.image}" alt="${p.name} preview" class="w-full h-48 object-cover" loading="lazy" decoding="async" />
+                ${p.highlight ? '<span class="absolute top-2 left-2 bg-purple-600/80 text-xs px-2 py-1 rounded-full">Featured</span>' : ''}
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+                <h3 class="text-xl font-semibold mb-2">${p.name}</h3>
+                <p class="text-gray-400 mb-4 text-sm flex-1">${p.description}</p>
+                <div class="flex flex-wrap gap-2 mb-6">${p.tech.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+                <div class="flex space-x-3 mt-auto">
+                    ${p.links.demo ? `<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo for ${p.name}">Live</a>`:''}
+                    ${p.links.code ? `<a href="${p.links.code}" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code for ${p.name}">Code</a>`:''}
+                </div>
+            </div>`;
+        return card;
+    }
+
+    function renderProjects() {
+        if (!projectsGrid) return;
+        projectsGrid.setAttribute('aria-busy', 'true');
+        projectsGrid.innerHTML = '';
+        let list = [...projectData];
+        if (activeFilter !== 'All') {
+            list = list.filter(p => p.tech.includes(activeFilter));
+        }
+        if (list.length === 0) {
+            projectsGrid.innerHTML = '<p class="text-gray-400 col-span-full text-center text-sm">No projects match this filter.</p>';
+        } else {
+            list.forEach(p => projectsGrid.appendChild(createProjectCard(p)));
+        }
+        projectsGrid.setAttribute('aria-busy', 'false');
+    }
+
+    function renderFilters() {
+        if (!filtersBar) return;
+        const techSet = new Set();
+        projectData.forEach(p => p.tech.forEach(t => techSet.add(t)));
+        const allTech = ['All', ...Array.from(techSet).sort()];
+        filtersBar.innerHTML = '';
+        allTech.forEach(t => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'px-3 py-1 rounded-full text-xs font-semibold border border-white/10 bg-black/30 hover:border-purple-500 transition-colors ' + (t===activeFilter ? 'bg-purple-600 text-white border-purple-500' : 'text-gray-300');
+            btn.textContent = t;
+            btn.setAttribute('aria-pressed', String(t===activeFilter));
+            btn.addEventListener('click', () => {
+                activeFilter = t;
+                renderFilters();
+                renderProjects();
+            });
+            filtersBar.appendChild(btn);
+        });
+    }
+
+    async function loadProjects() {
+        try {
+            const res = await fetch('projects.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error('Failed to load projects');
+            projectData = await res.json();
+            renderFilters();
+            renderProjects();
+        } catch (e) {
+            if (projectsGrid) {
+                projectsGrid.innerHTML = '<p class="text-red-400 text-sm">Failed to load projects data.</p>';
+                projectsGrid.setAttribute('aria-busy', 'false');
+            }
+            console.error(e);
+        }
+    }
+    if (projectsGrid) loadProjects();
+
+    // --- Service Worker Registration ---
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(console.error);
+    }
+
+    // --- Dynamic Skills ---
+    const skillsGrid = document.getElementById('skills-grid');
+    async function loadSkills() {
+        if (!skillsGrid) return;
+        try {
+            const res = await fetch('skills.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error('Failed to load skills');
+            const data = await res.json();
+            skillsGrid.innerHTML = '';
+            Object.entries(data).forEach(([category, items]) => {
+                const card = document.createElement('div');
+                card.className = 'glass-card-dark p-6';
+                card.innerHTML = `<h3 class="text-xl font-semibold mb-4">${category}</h3><div class="flex flex-wrap gap-4">${items.map(i=>`<span class=\"tech-tag\">${i}</span>`).join('')}</div>`;
+                skillsGrid.appendChild(card);
+            });
+            skillsGrid.setAttribute('aria-busy', 'false');
+        } catch (err) {
+            console.error(err);
+            skillsGrid.innerHTML = '<p class="text-red-400 text-sm">Failed to load skills.</p>';
+            skillsGrid.setAttribute('aria-busy', 'false');
+        }
+    }
+    loadSkills();
+
+    // Future: dynamic skills (placeholder for smooth extension)
+    // fetch('skills.json').then(r=>r.json()).then(data => { /* render if desired */ }).catch(()=>{});
 });

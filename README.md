@@ -23,6 +23,9 @@ Visit: https://vojtik1112.github.io/Portfolio (GitHub Pages)
   - Light/Dark theme toggle (persisted in localStorage).
   - Background animation on/off toggle for performance or energy saving.
   - Accessible skip-to-content link, improved focus rings, labelled form fields.
+  - Data-driven projects (JSON fetched + dynamic filtering by technology).
+  - Dynamic categorized skills fetched from JSON.
+  - Progressive Web App (manifest + service worker) with offline fallback page.
 
 ## Tech Stack
 
@@ -94,6 +97,8 @@ Update this section to reflect the actual setup if different.
 - Form accessibility: explicit labels (visually hidden), ARIA states, focus rings.
 - Skip link for keyboard navigation.
 - Structured data (JSON-LD Person schema).
+ - Service Worker caching core assets + offline.html fallback.
+ - Dynamic project filtering toolbar (All + tech tags).
 
 Additional tips you can still apply:
 - Compress large images (use WebP or AVIF where possible).
@@ -108,6 +113,9 @@ Additional tips you can still apply:
 - MIT License file.
 - Automated Lighthouse CI (GitHub Action) for performance & a11y budgets.
 - Offline support (basic Service Worker + asset caching).
+ - Image optimization (add WebP/AVIF variants & <picture> tags).
+ - Code splitting of WebGL logic (lazy init only when visible).
+ - Add analytics (privacy-friendly, e.g. Plausible) – optional.
 
 (Adjust or check off items as they are completed.)
 

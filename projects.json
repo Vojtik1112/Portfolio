@@ -1,0 +1,32 @@
+[
+  {
+    "id": "project-union",
+    "name": "Project Union",
+    "description": "Platform for students to publish games & school projects.",
+    "image": "Images/project-union.png",
+    "tech": ["HTML", "CSS", "JavaScript", "PHP"],
+    "links": {
+      "demo": "https://project-union.mzf.cz/",
+      "code": "https://github.com/" 
+    },
+    "highlight": true
+  },
+  {
+    "id": "shader-lab",
+    "name": "Shader Lab Experiments",
+    "description": "Collection of interactive WebGL/GLSL shader playgrounds.",
+    "image": "Images/vojta-novak.png",
+    "tech": ["WebGL", "GLSL", "JavaScript"],
+    "links": {"demo": "#", "code": "#"},
+    "highlight": false
+  },
+  {
+    "id": "task-flow",
+    "name": "Task Flow CLI",
+    "description": "Simple cross-platform CLI task & study tracker.",
+    "image": "Images/vojta-novak.png",
+    "tech": ["Node.js", "TypeScript"],
+    "links": {"demo": "#", "code": "#"},
+    "highlight": false
+  }
+]
