@@ -4,16 +4,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Standard Page Interactivity ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenuButton) {
+    if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', () => {
             const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
             mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
             mobileMenu.classList.toggle('hidden');
         });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        });
     }
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
-    });
 
     // --- Scroll Fade-in Animation ---
     const observer = new IntersectionObserver((entries) => {
@@ -70,28 +71,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Background Toggle (WebGL On/Off) ---
     const bgToggle = document.getElementById('bg-toggle');
     let bgEnabled = localStorage.getItem('bg-enabled');
-    if (bgEnabled === null) { bgEnabled = 'true'; }
-    function applyBgState(enabled) {
-        if (enabled === 'true') {
-            document.documentElement.classList.remove('no-bg');
-            bgToggle?.setAttribute('aria-pressed', 'true');
-            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-water"></i>');
-        } else {
-            document.documentElement.classList.add('no-bg');
-            bgToggle?.setAttribute('aria-pressed', 'false');
-            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-ban"></i>');
-        }
-    }
-    applyBgState(bgEnabled);
-    bgToggle?.addEventListener('click', () => {
-        bgEnabled = (bgEnabled === 'true') ? 'false' : 'true';
-        localStorage.setItem('bg-enabled', bgEnabled);
-        applyBgState(bgEnabled);
-    });
+    if (bgEnabled === null) { bgEnabled = prefersReducedMotion ? 'false' : 'true'; }
 
     // --- WebGL Liquid Glass Simulation ---
-
-    // Shader code is now directly inside the JavaScript
+    const canvas = document.getElementById('liquid-canvas');
     const vertexShaderSource = `
         attribute vec2 a_position;
         void main() {
@@ -140,81 +123,176 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     `;
 
-    const canvas = document.getElementById('liquid-canvas');
-    if (canvas && bgEnabled === 'true') {
-        const gl = canvas.getContext('webgl');
+    const bgState = {
+        gl: null,
+        program: null,
+        animationId: null,
+        mouseHandler: null,
+        resizeHandler: null,
+        positionBuffer: null,
+        time: 0,
+        mousePos: { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    };
 
+    function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            console.error('Shader compile error: ' + gl.getShaderInfoLog(shader));
+            gl.deleteShader(shader);
+            return null;
+        }
+        return shader;
+    }
+
+    function createProgram(gl, vertexShader, fragmentShader) {
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error('Program link error: ' + gl.getProgramInfoLog(program));
+            return null;
+        }
+        return program;
+    }
+
+    function startBackground() {
+        if (!canvas || bgState.animationId !== null || bgState.gl) return;
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
         if (!gl) {
-            console.error("WebGL is not supported.");
-        } else {
-            let time = 0;
-            let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+            console.error('WebGL is not supported.');
+            return;
+        }
 
-            function createShader(gl, type, source) {
-                const shader = gl.createShader(type);
-                gl.shaderSource(shader, source);
-                gl.compileShader(shader);
-                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                    console.error('Shader compile error: ' + gl.getShaderInfoLog(shader));
-                    gl.deleteShader(shader); return null;
-                } return shader;
+        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        if (!vertexShader) return;
+        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        if (!fragmentShader) {
+            gl.deleteShader(vertexShader);
+            return;
+        }
+
+        const program = createProgram(gl, vertexShader, fragmentShader);
+        if (!program) {
+            gl.deleteShader(vertexShader);
+            gl.deleteShader(fragmentShader);
+            return;
+        }
+        gl.deleteShader(vertexShader);
+        gl.deleteShader(fragmentShader);
+
+        const positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
+        const resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution');
+        const timeUniformLocation = gl.getUniformLocation(program, 'u_time');
+        const mouseUniformLocation = gl.getUniformLocation(program, 'u_mouse');
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            -1, -1,
+             1, -1,
+            -1,  1,
+            -1,  1,
+             1, -1,
+             1,  1,
+        ]), gl.STATIC_DRAW);
+
+        const resize = (force = false) => {
+            const displayWidth = window.innerWidth;
+            const displayHeight = window.innerHeight;
+            if (force || canvas.width !== displayWidth || canvas.height !== displayHeight) {
+                canvas.width = displayWidth;
+                canvas.height = displayHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
             }
+        };
 
-            function createProgram(gl, vertexShader, fragmentShader) {
-                const program = gl.createProgram();
-                gl.attachShader(program, vertexShader);
-                gl.attachShader(program, fragmentShader);
-                gl.linkProgram(program);
-                if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                    console.error('Program link error: ' + gl.getProgramInfoLog(program));
-                    return null;
-                } return program;
-            }
-
-            const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-            const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-            const program = createProgram(gl, vertexShader, fragmentShader);
-
-            const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-            const resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
-            const timeUniformLocation = gl.getUniformLocation(program, "u_time");
-            const mouseUniformLocation = gl.getUniformLocation(program, "u_mouse");
-            
-            const positionBuffer = gl.createBuffer();
+        const render = () => {
+            if (!bgState.gl) return;
+            resize();
+            gl.useProgram(program);
+            gl.enableVertexAttribArray(positionAttributeLocation);
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1,]), gl.STATIC_DRAW);
+            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+            bgState.time += 0.01;
+            gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
+            gl.uniform1f(timeUniformLocation, bgState.time);
+            gl.uniform2f(mouseUniformLocation, bgState.mousePos.x, canvas.height - bgState.mousePos.y);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            bgState.animationId = requestAnimationFrame(render);
+        };
 
-            function render() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-                gl.useProgram(program);
-                gl.enableVertexAttribArray(positionAttributeLocation);
-                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-                gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-                time += 0.01;
-                gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-                gl.uniform1f(timeUniformLocation, time);
-                gl.uniform2f(mouseUniformLocation, mousePos.x, gl.canvas.height - mousePos.y);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
-                requestAnimationFrame(render);
-            }
-            
-            window.addEventListener('mousemove', e => {
-                mousePos.x = e.clientX;
-                mousePos.y = e.clientY;
-            });
+        resize(true);
+        bgState.gl = gl;
+        bgState.program = program;
+        bgState.positionBuffer = positionBuffer;
+        bgState.time = 0;
+        bgState.mousePos.x = window.innerWidth / 2;
+        bgState.mousePos.y = window.innerHeight / 2;
+        canvas.dataset.initialized = 'true';
 
-            if (bgEnabled === 'true') { render(); }
+        bgState.mouseHandler = (e) => {
+            bgState.mousePos.x = e.clientX;
+            bgState.mousePos.y = e.clientY;
+        };
+        window.addEventListener('mousemove', bgState.mouseHandler);
+
+        bgState.resizeHandler = () => resize();
+        window.addEventListener('resize', bgState.resizeHandler);
+
+        render();
+    }
+
+    function stopBackground() {
+        if (!bgState.gl) return;
+        if (bgState.animationId !== null) {
+            cancelAnimationFrame(bgState.animationId);
+            bgState.animationId = null;
+        }
+        if (bgState.mouseHandler) {
+            window.removeEventListener('mousemove', bgState.mouseHandler);
+            bgState.mouseHandler = null;
+        }
+        if (bgState.resizeHandler) {
+            window.removeEventListener('resize', bgState.resizeHandler);
+            bgState.resizeHandler = null;
+        }
+        const gl = bgState.gl;
+        if (bgState.positionBuffer) {
+            gl.deleteBuffer(bgState.positionBuffer);
+        }
+        if (bgState.program) {
+            gl.deleteProgram(bgState.program);
+        }
+        bgState.gl = null;
+        bgState.program = null;
+        bgState.positionBuffer = null;
+        bgState.time = 0;
+        canvas.removeAttribute('data-initialized');
+    }
+
+    function applyBgState(enabled) {
+        if (enabled === 'true') {
+            document.documentElement.classList.remove('no-bg');
+            bgToggle?.setAttribute('aria-pressed', 'true');
+            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-water"></i>');
+            startBackground();
+        } else {
+            document.documentElement.classList.add('no-bg');
+            bgToggle?.setAttribute('aria-pressed', 'false');
+            bgToggle && (bgToggle.innerHTML = '<i class="fas fa-ban"></i>');
+            stopBackground();
         }
     }
 
-    // Re-run background init if toggled back on (simple approach: reload)
+    applyBgState(bgEnabled);
+
     bgToggle?.addEventListener('click', () => {
-        if (bgEnabled === 'true' && !canvas.hasAttribute('data-initialized')) {
-            // simplest: reload to re-init GL (keeps code small)
-            location.reload();
-        }
+        bgEnabled = (bgEnabled === 'true') ? 'false' : 'true';
+        localStorage.setItem('bg-enabled', bgEnabled);
+        applyBgState(bgEnabled);
     });
 
     // --- Dynamic Year ---
@@ -255,6 +333,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const card = document.createElement('article');
         card.className = 'glass-card-dark rounded-xl overflow-hidden flex flex-col';
         card.setAttribute('data-tech', p.tech.join(','));
+        // Build optional action buttons for the project.
+        const actions = [];
+        if (p.links?.demo) {
+            actions.push(`<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo for ${p.name}">Live</a>`);
+        }
+        if (p.links?.code) {
+            actions.push(`<a href="${p.links.code}" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code for ${p.name}">Code</a>`);
+        }
+        if (p.links?.form) {
+            actions.push(`<a href="${p.links.form}" target="_blank" rel="noopener noreferrer" class="project-btn bg-purple-600/80 hover:bg-purple-600 text-white" aria-label="Open form for ${p.name}">Form</a>`);
+        }
+        const actionsMarkup = actions.join('');
         card.innerHTML = `
             <div class="relative w-full h-48 overflow-hidden bg-black">
                 <img src="${p.image}" alt="${p.name} preview" class="w-full h-48 object-cover" loading="lazy" decoding="async" />
@@ -264,10 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h3 class="text-xl font-semibold mb-2">${p.name}</h3>
                 <p class="text-gray-400 mb-4 text-sm flex-1">${p.description}</p>
                 <div class="flex flex-wrap gap-2 mb-6">${p.tech.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
-                <div class="flex space-x-3 mt-auto">
-                    ${p.links.demo ? `<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo for ${p.name}">Live</a>`:''}
-                    ${p.links.code ? `<a href="${p.links.code}" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code for ${p.name}">Code</a>`:''}
-                </div>
+                <div class="flex space-x-3 mt-auto">${actionsMarkup}</div>
             </div>`;
         return card;
     }
