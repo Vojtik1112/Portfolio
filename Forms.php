@@ -1,6 +1,15 @@
 <?php
 session_start();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'ajax_greeting') {
+  $rawName = trim($_POST['name'] ?? '');
+  $safeName = $rawName === '' ? 'Neznamy' : htmlspecialchars($rawName, ENT_QUOTES, 'UTF-8');
+
+  header('Content-Type: application/json; charset=UTF-8');
+  echo json_encode(['message' => 'Ahoj, ' . $safeName . '!']);
+  exit;
+}
+
 $name = '';
 $quantity = '';
 $color = '';
@@ -138,6 +147,52 @@ $preferredLanguageDisplay = $preferredLanguage === '' ? 'neni nastaven' : htmlsp
     </form>
   <?php } ?>
   <?php if ($authMessage !== '') echo '<p>' . htmlspecialchars($authMessage, ENT_QUOTES, 'UTF-8') . '</p>'; ?>
+
+
+  <h2>AJAX Pozdrav</h2>
+  <p>Test AJAX odeslani bez zobrazovani dat v adrese URL.</p>
+  <label for="ajax-name">Zadejte jmeno:</label>
+  <input type="text" id="ajax-name" placeholder="Napiste jmeno">
+  <button type="button" id="ajax-submit">Odeslat</button>
+  <p id="ajax-result"></p>
+
+  <script>
+    (function() {
+      const nameInput = document.getElementById('ajax-name');
+      const resultEl = document.getElementById('ajax-result');
+      const button = document.getElementById('ajax-submit');
+
+      if (!nameInput || !resultEl || !button) return;
+
+      button.addEventListener('click', async () => {
+        const params = new URLSearchParams();
+        params.set('action', 'ajax_greeting');
+        params.set('name', nameInput.value.trim());
+
+        resultEl.textContent = 'Zpracovavam...';
+
+        try {
+          const response = await fetch('Forms.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: params.toString()
+          });
+
+          if (!response.ok) {
+            throw new Error('Server vratil chybu');
+          }
+
+          const data = await response.json();
+          resultEl.innerHTML = data.message ?? 'Chyba zpracovani odpovedi.';
+        } catch (error) {
+          resultEl.textContent = 'Nepodarilo se odeslat pozadavek.';
+          console.error('AJAX pozdrav selhal', error);
+        }
+      });
+    })();
+  </script>
 
 
 </body>
