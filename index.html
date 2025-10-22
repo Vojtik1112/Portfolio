@@ -44,14 +44,14 @@
     <canvas id="liquid-canvas"></canvas>
 
     <!-- Header -->
-    <header class="bg-black/50 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800/50" role="banner">
+    <header class="bg-black/50 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800/50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center" aria-label="Main navigation">
             <a href="#home" class="text-2xl font-bold text-white tracking-wider" aria-label="Homepage">Vojta Novák</a>
-            <div class="hidden md:flex items-center space-x-8" role="menubar">
-                <a href="#about" class="nav-link" role="menuitem">About</a>
-                <a href="#skills" class="nav-link" role="menuitem">Skills</a>
-                <a href="#projects" class="nav-link" role="menuitem">Projects</a>
-                <a href="#contact" class="nav-link" role="menuitem">Contact</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </div>
             <div class="flex items-center space-x-4">
                 <button id="theme-toggle" class="text-gray-300 hover:text-white transition-colors" aria-pressed="false" aria-label="Toggle light / dark theme"><i class="fas fa-moon"></i></button>
@@ -59,11 +59,11 @@
                 <button id="mobile-menu-button" class="md:hidden text-2xl text-gray-300" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><i class="fas fa-bars"></i></button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-black/80 backdrop-blur-lg" role="menu">
-            <a href="#about" class="block py-3 px-6 text-sm" role="menuitem">About</a>
-            <a href="#skills" class="block py-3 px-6 text-sm" role="menuitem">Skills</a>
-            <a href="#projects" class="block py-3 px-6 text-sm" role="menuitem">Projects</a>
-            <a href="#contact" class="block py-3 px-6 text-sm" role="menuitem">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-black/80 backdrop-blur-lg">
+            <a href="#about" class="block py-3 px-6 text-sm">About</a>
+            <a href="#skills" class="block py-3 px-6 text-sm">Skills</a>
+            <a href="#projects" class="block py-3 px-6 text-sm">Projects</a>
+            <a href="#contact" class="block py-3 px-6 text-sm">Contact</a>
         </div>
     </header>
 
@@ -71,9 +71,9 @@
         <!-- Hero Section -->
         <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6">
             <div class="relative z-10">
-                <h1 class="text-5xl md:text-8xl font-bold tracking-tight mb-4" style="text-shadow: 0 2px 20px rgba(0,0,0,0.5);">Vojta Novák</h1>
-                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl" style="text-shadow: 0 1px 10px rgba(0,0,0,0.5);">IT Student</p>
-                <p class="text-lg md:text-xl text-gray-400 mt-4 italic mb-8" style="text-shadow: 0 1px 10px rgba(0,0,0,0.5);">"Genius, Billionaire, Playboy, Philanthropist"</p>
+                <h1 class="hero-title text-5xl md:text-8xl font-bold tracking-tight mb-4">Vojta Novák</h1>
+                <p class="hero-subtitle text-xl md:text-2xl text-gray-300 max-w-3xl">IT Student</p>
+                <p class="hero-quote text-lg md:text-xl text-gray-400 mt-4 mb-8">"Genius, Billionaire, Playboy, Philanthropist"</p>
                 <div class="flex justify-center space-x-6 mb-10 text-3xl">
                     <a href="https://github.com/Vojtik1112" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"><i class="fab fa-github"></i></a>
                     <a href="https://www.instagram.com/schizvojta/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" class="text-gray-400 hover:text-white transition-all duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"><i class="fab fa-instagram"></i></a>
@@ -150,13 +150,13 @@
         </section>
     </main>
 
-        <!-- Footer -->
-        <footer class="py-8 text-center text-gray-500 border-t border-gray-800/20" role="contentinfo">
-                <p>&copy; <span id="year"></span> Vojta Novák. All Rights Reserved.</p>
-        </footer>
+    <!-- Footer -->
+    <footer class="py-8 text-center text-gray-500 border-t border-gray-800/20" role="contentinfo">
+        <p>&copy; <span id="year"></span> Vojta Novák. All Rights Reserved.</p>
+    </footer>
 
-        <!-- Structured Data -->
-        <script type="application/ld+json">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@graph": [
@@ -184,10 +184,10 @@
                 }
             ]
         }
-        </script>
+    </script>
 
     <!-- Main script -->
     <script src="assets/js/script.js" defer></script>
-        <noscript><div style="position:fixed;top:0;left:0;width:100%;background:#111;color:#fff;text-align:center;padding:.5rem;z-index:999;">JavaScript is disabled – some interactive & visual features are unavailable.</div></noscript>
+    <noscript><div style="position:fixed;top:0;left:0;width:100%;background:#111;color:#fff;text-align:center;padding:.5rem;z-index:999;">JavaScript is disabled – some interactive & visual features are unavailable.</div></noscript>
 </body>
 </html>

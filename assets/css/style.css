@@ -25,6 +25,19 @@ body {
     color: var(--text-color);
 }
 
+.hero-title {
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle,
+.hero-quote {
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-quote {
+    font-style: italic;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     color: var(--heading-color);
@@ -73,13 +86,13 @@ p { line-height: 1.75; }
 }
 .skill-icon:hover { transform: translateY(-5px); color: var(--accent-color); }
 
-.tech-tag { 
-    background-color: #1f2937; color: var(--text-color); font-size: 0.75rem; 
-    padding: 0.25rem 0.6rem; border-radius: 5px; 
+.tech-tag {
+    background-color: #1f2937; color: var(--text-color); font-size: 0.75rem;
+    padding: 0.25rem 0.6rem; border-radius: 5px;
 }
-.project-btn { 
-    width: 100%; text-align: center; padding: 0.5rem 1rem; border-radius: 9999px; 
-    font-size: 0.875rem; font-weight: 600; transition: background-color 0.3s; 
+.project-btn {
+    width: 100%; text-align: center; padding: 0.5rem 1rem; border-radius: 9999px;
+    font-size: 0.875rem; font-weight: 600; transition: background-color 0.3s;
 }
 
 .contact-input {

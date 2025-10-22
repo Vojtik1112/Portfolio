@@ -15,6 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     const PROJECT_SCHEMA_ID = 'project-schema';
 
+    const escapeHtml = (value) => {
+        if (typeof value !== 'string') {
+            return '';
+        }
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        };
+        return value.replace(/[&<>"']/g, (char) => map[char]);
+    };
+
     // --- Standard Page Interactivity ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -39,43 +53,48 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }, { threshold: 0.1 });
+    const fadeSections = document.querySelectorAll('.fade-in-section');
     if (!prefersReducedMotion) {
-        document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+        fadeSections.forEach(section => observer.observe(section));
     } else {
-        document.querySelectorAll('.fade-in-section').forEach(section => section.classList.add('is-visible'));
+        fadeSections.forEach(section => section.classList.add('is-visible'));
     }
 
     // --- Magnetic Buttons ---
     if (!prefersReducedMotion) {
         document.querySelectorAll('[data-magnetic]').forEach(el => {
-            el.addEventListener('mousemove', function(e) {
+            const resetTransform = () => { el.style.transform = 'translate(0, 0)'; };
+            el.addEventListener('mousemove', (event) => {
                 const pos = el.getBoundingClientRect();
-                const x = e.clientX - pos.left - pos.width / 2;
-                const y = e.clientY - pos.top - pos.height / 2;
+                const x = event.clientX - pos.left - pos.width / 2;
+                const y = event.clientY - pos.top - pos.height / 2;
                 el.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
             });
-            el.addEventListener('mouseout', function() { el.style.transform = 'translate(0, 0)'; });
+            ['mouseout', 'mouseleave', 'blur', 'touchend'].forEach(evt => el.addEventListener(evt, resetTransform));
         });
     }
 
     // --- Theme Toggle ---
     const themeToggle = document.getElementById('theme-toggle');
     const root = document.documentElement;
+    const metaThemeColor = document.getElementById('meta-theme-color');
     function applyTheme(theme) {
         if (theme === 'light') {
             root.classList.add('light');
             themeToggle?.setAttribute('aria-pressed', 'true');
             if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            document.getElementById('meta-theme-color')?.setAttribute('content', '#f6f8fa');
+            metaThemeColor?.setAttribute('content', '#f6f8fa');
         } else {
             root.classList.remove('light');
             themeToggle?.setAttribute('aria-pressed', 'false');
             if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            document.getElementById('meta-theme-color')?.setAttribute('content', '#000000');
+            metaThemeColor?.setAttribute('content', '#000000');
         }
     }
     const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) applyTheme(storedTheme);
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+        applyTheme(storedTheme);
+    }
     themeToggle?.addEventListener('click', () => {
         const newTheme = root.classList.contains('light') ? 'dark' : 'light';
         applyTheme(newTheme);
@@ -316,19 +335,41 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Simple Client-side Validation Enhancement ---
     const contactForm = document.querySelector('form[action*="formspree"]');
     if (contactForm) {
+        const fields = ['#contact-name', '#contact-email', '#contact-message']
+            .map(selector => contactForm.querySelector(selector))
+            .filter(Boolean);
+
+        const markInvalid = (field) => {
+            field.setAttribute('aria-invalid', 'true');
+            field.classList.add('ring-2', 'ring-red-500');
+        };
+
+        const clearInvalid = (field) => {
+            field.removeAttribute('aria-invalid');
+            field.classList.remove('ring-2', 'ring-red-500');
+        };
+
+        fields.forEach(field => {
+            field.addEventListener('input', () => {
+                if (field.value.trim()) {
+                    clearInvalid(field);
+                }
+            });
+            field.addEventListener('blur', () => {
+                if (field.value.trim()) {
+                    clearInvalid(field);
+                }
+            });
+        });
+
         contactForm.addEventListener('submit', (e) => {
-            const name = contactForm.querySelector('#contact-name');
-            const email = contactForm.querySelector('#contact-email');
-            const message = contactForm.querySelector('#contact-message');
             let valid = true;
-            [name, email, message].forEach(field => {
+            fields.forEach(field => {
                 if (!field.value.trim()) {
-                    field.setAttribute('aria-invalid', 'true');
-                    field.classList.add('ring-2', 'ring-red-500');
+                    markInvalid(field);
                     valid = false;
                 } else {
-                    field.removeAttribute('aria-invalid');
-                    field.classList.remove('ring-2', 'ring-red-500');
+                    clearInvalid(field);
                 }
             });
             if (!valid) {
@@ -346,28 +387,37 @@ document.addEventListener('DOMContentLoaded', function () {
     function createProjectCard(p) {
         const card = document.createElement('article');
         card.className = 'glass-card-dark rounded-xl overflow-hidden flex flex-col';
-        card.setAttribute('data-tech', p.tech.join(','));
-        // Build optional action buttons for the project.
+        const techList = Array.isArray(p.tech) ? p.tech : [];
+        if (techList.length) {
+            card.setAttribute('data-tech', techList.join(','));
+        }
+
+        const safeName = escapeHtml(p.name || 'Portfolio project');
+        const safeDescription = escapeHtml(p.description || '');
+        const safeTags = techList.map(tag => `<span class="tech-tag">${escapeHtml(tag)}</span>`).join('');
+        const previewImage = p.image || 'assets/images/vojta-novak.png';
+
         const actions = [];
         if (p.links?.demo) {
-            actions.push(`<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo for ${p.name}">Live</a>`);
+            actions.push(`<a href="${p.links.demo}" target="_blank" rel="noopener noreferrer" class="project-btn bg-white hover:bg-gray-200 text-black" aria-label="Open live demo for ${safeName}">Live</a>`);
         }
         if (p.links?.code) {
-            actions.push(`<a href="${p.links.code}" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code for ${p.name}">Code</a>`);
+            actions.push(`<a href="${p.links.code}" target="_blank" rel="noopener noreferrer" class="project-btn bg-black/40 border border-white/10 text-white hover:bg-black/60" aria-label="Open source code for ${safeName}">Code</a>`);
         }
         if (p.links?.form) {
-            actions.push(`<a href="${p.links.form}" target="_blank" rel="noopener noreferrer" class="project-btn bg-purple-600/80 hover:bg-purple-600 text-white" aria-label="Open form for ${p.name}">Form</a>`);
+            actions.push(`<a href="${p.links.form}" target="_blank" rel="noopener noreferrer" class="project-btn bg-purple-600/80 hover:bg-purple-600 text-white" aria-label="Open form for ${safeName}">Form</a>`);
         }
         const actionsMarkup = actions.join('');
+
         card.innerHTML = `
             <div class="relative w-full h-48 overflow-hidden bg-black">
-                <img src="${p.image}" alt="${p.name} preview" class="w-full h-48 object-cover" loading="lazy" decoding="async" />
+                <img src="${previewImage}" alt="${safeName} preview" class="w-full h-48 object-cover" loading="lazy" decoding="async" />
                 ${p.highlight ? '<span class="absolute top-2 left-2 bg-purple-600/80 text-xs px-2 py-1 rounded-full">Featured</span>' : ''}
             </div>
             <div class="p-6 flex flex-col flex-1">
-                <h3 class="text-xl font-semibold mb-2">${p.name}</h3>
-                <p class="text-gray-400 mb-4 text-sm flex-1">${p.description}</p>
-                <div class="flex flex-wrap gap-2 mb-6">${p.tech.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+                <h3 class="text-xl font-semibold mb-2">${safeName}</h3>
+                <p class="text-gray-400 mb-4 text-sm flex-1">${safeDescription}</p>
+                <div class="flex flex-wrap gap-2 mb-6">${safeTags}</div>
                 <div class="flex space-x-3 mt-auto">${actionsMarkup}</div>
             </div>`;
         return card;
@@ -419,14 +469,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!projectsGrid) return;
         projectsGrid.setAttribute('aria-busy', 'true');
         projectsGrid.innerHTML = '';
-        let list = [...projectData];
-        if (activeFilter !== 'All') {
-            list = list.filter(p => p.tech.includes(activeFilter));
-        }
-        if (list.length === 0) {
+        const filterMatches = projectData.filter(project => {
+            if (activeFilter === 'All') {
+                return true;
+            }
+            const techList = Array.isArray(project.tech) ? project.tech : [];
+            return techList.includes(activeFilter);
+        });
+
+        if (!projectData.length) {
+            projectsGrid.innerHTML = '<p class="text-gray-400 col-span-full text-center text-sm">Projects will be published soon.</p>';
+        } else if (!filterMatches.length) {
             projectsGrid.innerHTML = '<p class="text-gray-400 col-span-full text-center text-sm">No projects match this filter.</p>';
         } else {
-            list.forEach(p => projectsGrid.appendChild(createProjectCard(p)));
+            filterMatches.forEach(project => projectsGrid.appendChild(createProjectCard(project)));
         }
         projectsGrid.setAttribute('aria-busy', 'false');
     }
@@ -442,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.type = 'button';
             btn.className = 'px-3 py-1 rounded-full text-xs font-semibold border border-white/10 bg-black/30 hover:border-purple-500 transition-colors ' + (t===activeFilter ? 'bg-purple-600 text-white border-purple-500' : 'text-gray-300');
             btn.textContent = t;
-            btn.setAttribute('aria-pressed', String(t===activeFilter));
+            btn.setAttribute('aria-pressed', t === activeFilter ? 'true' : 'false');
             btn.addEventListener('click', () => {
                 activeFilter = t;
                 renderFilters();
@@ -453,17 +509,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function loadProjects() {
+        projectsGrid?.setAttribute('aria-busy', 'true');
         try {
             const res = await fetch('assets/data/projects.json', { cache: 'no-store' });
             if (!res.ok) throw new Error('Failed to load projects');
             projectData = await res.json();
+            if (!Array.isArray(projectData)) {
+                projectData = [];
+            }
             renderFilters();
             renderProjects();
             injectProjectSchema(projectData);
         } catch (e) {
+            projectData = [];
+            activeFilter = 'All';
             if (projectsGrid) {
                 projectsGrid.innerHTML = '<p class="text-red-400 text-sm">Failed to load projects data.</p>';
                 projectsGrid.setAttribute('aria-busy', 'false');
+            }
+            if (filtersBar) {
+                filtersBar.innerHTML = '';
             }
             console.error(e);
         }
@@ -472,33 +537,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Service Worker Registration ---
     if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(console.error);
+        void navigator.serviceWorker.register('sw.js').catch(console.error);
     }
 
     // --- Dynamic Skills ---
     const skillsGrid = document.getElementById('skills-grid');
     async function loadSkills() {
         if (!skillsGrid) return;
+        skillsGrid.setAttribute('aria-busy', 'true');
         try {
             const res = await fetch('assets/data/skills.json', { cache: 'no-store' });
             if (!res.ok) throw new Error('Failed to load skills');
             const data = await res.json();
+            const groups = data && typeof data === 'object' ? Object.entries(data) : [];
             skillsGrid.innerHTML = '';
-            Object.entries(data).forEach(([category, items]) => {
+
+            if (!groups.length) {
+                skillsGrid.innerHTML = '<p class="text-gray-400 text-sm">No skills to display right now.</p>';
+                return;
+            }
+
+            groups.forEach(([category, items]) => {
+                const techList = Array.isArray(items) ? items : [];
                 const card = document.createElement('div');
                 card.className = 'glass-card-dark p-6';
-                card.innerHTML = `<h3 class="text-xl font-semibold mb-4">${category}</h3><div class="flex flex-wrap gap-4">${items.map(i=>`<span class=\"tech-tag\">${i}</span>`).join('')}</div>`;
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-4">${escapeHtml(category)}</h3>
+                    <div class="flex flex-wrap gap-4">${techList.map(skill => `<span class="tech-tag">${escapeHtml(skill)}</span>`).join('')}</div>
+                `;
                 skillsGrid.appendChild(card);
             });
-            skillsGrid.setAttribute('aria-busy', 'false');
         } catch (err) {
             console.error(err);
             skillsGrid.innerHTML = '<p class="text-red-400 text-sm">Failed to load skills.</p>';
+        } finally {
             skillsGrid.setAttribute('aria-busy', 'false');
         }
     }
     loadSkills();
-
-    // Future: dynamic skills (placeholder for smooth extension)
-    // fetch('assets/data/skills.json').then(r=>r.json()).then(data => { /* render if desired */ }).catch(()=>{});
 });
