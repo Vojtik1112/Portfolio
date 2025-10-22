@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function loadProjects() {
         try {
-            const res = await fetch('projects.json', { cache: 'no-store' });
+            const res = await fetch('assets/data/projects.json', { cache: 'no-store' });
             if (!res.ok) throw new Error('Failed to load projects');
             projectData = await res.json();
             renderFilters();
@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Service Worker Registration ---
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(console.error);
+    navigator.serviceWorker.register('sw.js').catch(console.error);
     }
 
     // --- Dynamic Skills ---
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadSkills() {
         if (!skillsGrid) return;
         try {
-            const res = await fetch('skills.json', { cache: 'no-store' });
+            const res = await fetch('assets/data/skills.json', { cache: 'no-store' });
             if (!res.ok) throw new Error('Failed to load skills');
             const data = await res.json();
             skillsGrid.innerHTML = '';
@@ -500,5 +500,5 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSkills();
 
     // Future: dynamic skills (placeholder for smooth extension)
-    // fetch('skills.json').then(r=>r.json()).then(data => { /* render if desired */ }).catch(()=>{});
+    // fetch('assets/data/skills.json').then(r=>r.json()).then(data => { /* render if desired */ }).catch(()=>{});
 });

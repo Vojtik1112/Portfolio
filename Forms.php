@@ -93,7 +93,7 @@ $preferredLanguageDisplay = $preferredLanguage === '' ? 'neni nastaven' : htmlsp
   <meta name="description" content="Online objednavkovy formular na tuzky se spravou relaci, cookies a uzivatelskym prihlasenim.">
   <link rel="canonical" href="https://vojtik1112.github.io/Portfolio/Forms.php">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="icon" type="image/png" href="Images/vojta-novak.png">
+  <link rel="icon" type="image/png" href="assets/images/vojta-novak.png">
 
 </head>
 

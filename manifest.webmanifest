@@ -7,6 +7,6 @@
   "theme_color": "#000000",
   "description": "Personal portfolio – projects, skills, contact.",
   "icons": [
-    { "src": "Images/vojta-novak.png", "sizes": "512x512", "type": "image/png" }
+  { "src": "assets/images/vojta-novak.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

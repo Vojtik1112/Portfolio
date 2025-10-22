@@ -1,10 +1,14 @@
-const CACHE_NAME = 'portfolio-cache-v2';
+const CACHE_NAME = 'portfolio-cache-v3';
 const CORE_ASSETS = [
   '/',
   'index.html',
-  'style.css',
-  'script.js',
-  'projects.json',
+  'assets/css/style.css',
+  'assets/js/script.js',
+  'assets/data/projects.json',
+  'assets/data/skills.json',
+  'assets/docs/resume.pdf',
+  'assets/images/project-union.png',
+  'assets/images/vojta-novak.png',
   'manifest.webmanifest',
   'offline.html',
   'robots.txt',

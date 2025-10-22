@@ -3,7 +3,7 @@
     "id": "project-union",
     "name": "Project Union",
     "description": "Platform for students to publish games & school projects.",
-    "image": "Images/project-union.png",
+  "image": "assets/images/project-union.png",
     "tech": ["HTML", "CSS", "JavaScript", "PHP"],
     "links": {
       "demo": "https://project-union.mzf.cz/",
@@ -15,7 +15,7 @@
     "id": "php-orders-form",
     "name": "PHP Orders Form",
     "description": "Session-aware order form handling language preferences, cookies, and authentication.",
-    "image": "Images/vojta-novak.png",
+  "image": "assets/images/vojta-novak.png",
     "tech": ["PHP", "HTML", "Sessions", "Cookies"],
     "links": {
       "demo": "../Forms.php",
@@ -27,7 +27,7 @@
     "id": "task-flow",
     "name": "Task Flow CLI",
     "description": "Simple cross-platform CLI task & study tracker.",
-    "image": "Images/vojta-novak.png",
+  "image": "assets/images/vojta-novak.png",
     "tech": ["Node.js", "TypeScript"],
     "links": {"demo": "#", "code": "#"},
     "highlight": false

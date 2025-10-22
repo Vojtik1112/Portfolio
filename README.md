@@ -42,10 +42,12 @@ Visit: https://vojtik1112.github.io/Portfolio (GitHub Pages)
 ```
 Portfolio/
 ├── index.html
-├── assets/           # Images, icons, media
-├── css/              # Tailwind build or additional custom styles
-├── js/               # Interaction, animations, WebGL scripts
-├── favicon.ico
+├── assets/
+│   ├── css/          # Custom styling
+│   ├── data/         # JSON data for projects & skills
+│   ├── docs/         # Downloadable documents (resume)
+│   ├── images/       # Site imagery & icons
+│   └── js/           # Interaction, animations, WebGL scripts
 └── README.md
 ```
 ## Getting Started
@@ -83,8 +85,8 @@ Update this section to reflect the actual setup if different.
 
 ## Customization
 
-- Replace placeholder project cards in the Projects section with new repositories or achievements.
-- Adjust the skills JSON/array or markup to dynamically render categories (if scripted).
+- Replace placeholder project cards by editing `assets/data/projects.json`.
+- Adjust skill categories inside `assets/data/skills.json` (or update the rendering logic).
 - Tweak animation durations / easing inside the JS files.
 - Modify shader or canvas parameters (WebGL effect) for different visual behaviour.
 
