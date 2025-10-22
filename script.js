@@ -1,5 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    const fallbackBase = `${window.location.origin}${window.location.pathname.replace(/index\.html?$/, '')}`;
+    const rawBaseUrl = canonicalLink?.href ?? fallbackBase;
+    const siteBaseUrl = rawBaseUrl.endsWith('/') ? rawBaseUrl : `${rawBaseUrl}/`;
+    const resolveToAbsolute = (path) => {
+        if (!path) return siteBaseUrl;
+        try {
+            return new URL(path, siteBaseUrl).href;
+        } catch (err) {
+            console.warn('Failed to resolve URL for schema.org data', err);
+            return path;
+        }
+    };
+    const PROJECT_SCHEMA_ID = 'project-schema';
 
     // --- Standard Page Interactivity ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -359,6 +373,48 @@ document.addEventListener('DOMContentLoaded', function () {
         return card;
     }
 
+    function injectProjectSchema(projects) {
+        const existing = document.getElementById(PROJECT_SCHEMA_ID);
+        if (existing) existing.remove();
+        if (!Array.isArray(projects) || projects.length === 0) return;
+
+        const itemList = {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Vojta Novák Portfolio Projects',
+            description: 'Selected software and web development projects by Vojta Novák.',
+            url: `${siteBaseUrl}#projects`,
+            itemListElement: projects.map((p, index) => {
+                const hasDemo = p.links?.demo && p.links.demo !== '#';
+                const projectUrl = hasDemo ? resolveToAbsolute(p.links.demo) : `${siteBaseUrl}#projects`;
+                const item = {
+                    '@type': 'CreativeWork',
+                    name: p.name,
+                    description: p.description,
+                    url: projectUrl
+                };
+                if (p.image) {
+                    item.image = resolveToAbsolute(p.image);
+                }
+                if (Array.isArray(p.tech) && p.tech.length) {
+                    item.keywords = p.tech.join(', ');
+                }
+                return {
+                    '@type': 'ListItem',
+                    position: index + 1,
+                    url: projectUrl,
+                    item
+                };
+            })
+        };
+
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.id = PROJECT_SCHEMA_ID;
+        schemaScript.textContent = JSON.stringify(itemList);
+        document.head.appendChild(schemaScript);
+    }
+
     function renderProjects() {
         if (!projectsGrid) return;
         projectsGrid.setAttribute('aria-busy', 'true');
@@ -403,6 +459,7 @@ document.addEventListener('DOMContentLoaded', function () {
             projectData = await res.json();
             renderFilters();
             renderProjects();
+            injectProjectSchema(projectData);
         } catch (e) {
             if (projectsGrid) {
                 projectsGrid.innerHTML = '<p class="text-red-400 text-sm">Failed to load projects data.</p>';

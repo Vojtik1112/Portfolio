@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portfolio-cache-v1';
+const CACHE_NAME = 'portfolio-cache-v2';
 const CORE_ASSETS = [
   '/',
   'index.html',
@@ -6,7 +6,9 @@ const CORE_ASSETS = [
   'script.js',
   'projects.json',
   'manifest.webmanifest',
-  'offline.html'
+  'offline.html',
+  'robots.txt',
+  'sitemap.xml'
 ];
 
 self.addEventListener('install', (e) => {

@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vojta Novák | IT Student Portfolio</title>
-    <meta name="description" content="Portfolio IT studenta Vojty Nováka – projekty, dovednosti, kontakt. Front-end, WebGL, moderní webové technologie.">
+    <meta name="description" content="Portfolio of IT student Vojta Novák showcasing front-end development projects, WebGL experiments, technical skills, coursework, and contact details.">
+    <meta name="keywords" content="Vojta Novák, portfolio, IT student, front-end developer, WebGL projects, JavaScript, TypeScript, Tailwind CSS">
+    <meta name="author" content="Vojta Novák">
     <meta name="theme-color" content="#000000" id="meta-theme-color">
     <link rel="canonical" href="https://vojtik1112.github.io/Portfolio/">
+    <link rel="icon" type="image/png" href="Images/vojta-novak.png">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
     <meta property="og:title" content="Vojta Novák – Portfolio">
     <meta property="og:description" content="Moje projekty, technologie a kontaktní údaje. Podívejte se na práci a ozvěte se.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vojtik1112.github.io/Portfolio/">
-    <meta property="og:image" content="Images/vojta-novak.png">
+    <meta property="og:site_name" content="Vojta Novák Portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://vojtik1112.github.io/Portfolio/Images/vojta-novak.png">
+    <meta property="og:image:alt" content="Portrait of Vojta Novák">
     <meta name="robots" content="index,follow">
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="color-scheme" content="dark light">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Vojta Novák – Portfolio">
     <meta name="twitter:description" content="Portfolio IT studenta – projekty a dovednosti.">
-    <meta name="twitter:image" content="Images/vojta-novak.png">
-    
+    <meta name="twitter:image" content="https://vojtik1112.github.io/Portfolio/Images/vojta-novak.png">
+    <meta name="twitter:image:alt" content="Portrait of Vojta Novák">
+
     <!-- External CSS & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -151,14 +159,29 @@
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Vojta Novák",
-            "jobTitle": "IT Student",
-            "url": "https://vojtik1112.github.io/Portfolio/",
-            "image": "https://vojtik1112.github.io/Portfolio/Images/vojta-novak.png",
-            "sameAs": [
-                "https://github.com/Vojtik1112",
-                "https://www.instagram.com/schizvojta/"
+            "@graph": [
+                {
+                    "@type": "Person",
+                    "@id": "https://vojtik1112.github.io/Portfolio/#person",
+                    "name": "Vojta Novák",
+                    "jobTitle": "IT Student",
+                    "url": "https://vojtik1112.github.io/Portfolio/",
+                    "image": "https://vojtik1112.github.io/Portfolio/Images/vojta-novak.png",
+                    "sameAs": [
+                        "https://github.com/Vojtik1112",
+                        "https://www.instagram.com/schizvojta/"
+                    ]
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://vojtik1112.github.io/Portfolio/#website",
+                    "name": "Vojta Novák Portfolio",
+                    "url": "https://vojtik1112.github.io/Portfolio/",
+                    "description": "Portfolio of IT student Vojta Novák featuring web projects, technical skills, and contact information.",
+                    "author": {
+                        "@id": "https://vojtik1112.github.io/Portfolio/#person"
+                    }
+                }
             ]
         }
         </script>
