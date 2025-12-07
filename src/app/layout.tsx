@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import LiquidBackground from "@/components/canvas/LiquidBackground";
 import { Loader } from "@/components/Loader";
 import type { Metadata } from "next";
@@ -25,6 +26,7 @@ export default function RootLayout({
         <LiquidBackground />
         <Loader />
         {children}
+        <Analytics />
       </body>
     </html>
   );
