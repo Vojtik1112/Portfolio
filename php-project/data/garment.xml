@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<garment>
+  <species>Oděvy</species>
+  <name>Bunda</name>
+  <properties>
+	<prop>péřová</prop>
+	<prop>zimní</prop>
+	<prop>prošívaná</prop>
+	
+	</properties>
+  <size>XXL</size>
+  <color>red</color>
+</garment>

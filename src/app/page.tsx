@@ -96,11 +96,60 @@ export default function Page() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="w-full flex items-center justify-center h-[70vh]"
+            className="w-full flex flex-col items-center justify-start min-h-[70vh] pt-20"
           >
-            <h2 className="text-2xl text-white/50 font-light tracking-widest uppercase">
-              Projects coming soon...
-            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full px-4">
+              {/* PHP Project Card */}
+              <SmokedGlass className="group relative overflow-hidden rounded-2xl border-white/10 bg-black/40 hover:bg-black/60 transition-colors p-6 flex flex-col gap-4">
+                <div className="flex justify-between items-start">
+                  <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M3 12h18" />
+                      <path d="M5 12V7a5 5 0 0 1 10 0v5" />
+                    </svg>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/30 border border-white/10 px-2 py-1 rounded-full">
+                    Assignment
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                    PHP Data Manager
+                  </h3>
+                  <p className="text-sm text-white/50 leading-relaxed font-light">
+                    A simple PHP application demonstrating XML/JSON parsing and
+                    a basic text editor with file persistence.
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-6 flex gap-4 text-xs font-mono text-white/40 uppercase tracking-wider">
+                  <span>PHP</span>
+                  <span>XML</span>
+                  <span>JSON</span>
+                </div>
+
+                <a
+                  href="http://localhost:8080"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-20 focus:outline-none"
+                  aria-label="View PHP Project"
+                >
+                  <span className="sr-only">View Component</span>
+                </a>
+              </SmokedGlass>
+            </div>
           </motion.div>
         )}
 
