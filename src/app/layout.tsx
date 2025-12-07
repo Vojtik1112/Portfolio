@@ -1,8 +1,13 @@
-import PhysarumBackground from "@/components/canvas/PhysarumBackground";
 import { Loader } from "@/components/Loader";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import "./globals.css";
+
+const PhysarumBackground = dynamic(
+  () => import("@/components/canvas/PhysarumBackground"),
+  { ssr: false }
+);
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
