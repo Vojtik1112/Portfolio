@@ -1,7 +1,6 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { ProjectCard } from "@/components/ProjectCard";
 import { SmokedGlass } from "@/components/ui/SmokedGlass";
 import { AnimatePresence, motion } from "framer-motion";
 import { Github, Instagram, Mail } from "lucide-react";
@@ -66,9 +65,26 @@ export default function Page() {
 
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-2xl text-white/60 tracking-widest uppercase mb-10"
+              className="text-lg md:text-2xl text-white/60 tracking-widest uppercase mb-6"
             >
-              Creative Developer
+              IT Student
+            </motion.p>
+
+            <motion.div
+              variants={fadeInUp}
+              className="mb-10 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs text-green-400 font-medium uppercase tracking-wider">
+                Available for Freelancing
+              </span>
+            </motion.div>
+
+            <motion.p
+              variants={fadeInUp}
+              className="text-xl text-white/80 font-light italic max-w-lg mx-auto"
+            >
+              "Genius, Billionaire, Playboy, Philanthropist."
             </motion.p>
           </motion.div>
         )}
@@ -80,26 +96,11 @@ export default function Page() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="w-full max-w-6xl grid md:grid-cols-2 lg:grid-cols-3 gap-6 h-[70vh]"
+            className="w-full flex items-center justify-center h-[70vh]"
           >
-            <ProjectCard
-              title="Quantum E-Commerce"
-              description="High-frequency trading interface for digital assets. Optimized for <10ms latency."
-              tags={["Next.js", "WebGL", "Socket.io"]}
-              href="#"
-            />
-            <ProjectCard
-              title="Neural Visualization"
-              description="Interactive 3D visualization of LLM attention heads using instanced mesh rendering."
-              tags={["Three.js", "Python", "WebGPU"]}
-              href="#"
-            />
-            <ProjectCard
-              title="Cyberpunk API"
-              description="Robust backend infrastructure for a dystopian city management game."
-              tags={["Laravel", "Postgres", "Redis"]}
-              href="#"
-            />
+            <h2 className="text-2xl text-white/50 font-light tracking-widest uppercase">
+              Projects coming soon...
+            </h2>
           </motion.div>
         )}
 
@@ -110,17 +111,42 @@ export default function Page() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="max-w-2xl w-full"
+            className="max-w-2xl w-full my-auto"
           >
-            <SmokedGlass className="text-center py-20 px-12 border-white/20 bg-black/60">
-              <h2 className="text-4xl font-bold mb-8 text-white">
-                Initialize Contact
-              </h2>
-              <p className="text-white/70 mb-12 text-lg leading-relaxed font-light">
-                Specializing in high-performance WebGL interfaces and robust
-                backend architecture. Building the future of the web, one frame
-                at a time.
-              </p>
+            <SmokedGlass className="text-center py-12 px-8 md:py-20 md:px-12 border-white/20 bg-black/60">
+              <h2 className="text-4xl font-bold mb-8 text-white">Contact Me</h2>
+
+              <div className="mb-12 space-y-8">
+                <div className="text-left">
+                  <h3 className="text-sm font-bold text-white/40 uppercase tracking-widest mb-4 border-b border-white/10 pb-2">
+                    Tech Stack
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <h4 className="text-white/80 text-xs uppercase mb-2">
+                        Systems
+                      </h4>
+                      <p className="text-white/60 font-mono text-sm">
+                        C++, C#, PHP
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-white/80 text-xs uppercase mb-2">
+                        Frontend
+                      </h4>
+                      <p className="text-white/60 font-mono text-sm">
+                        HTML, CSS, JS
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-white/80 text-xs uppercase mb-2">
+                        Data
+                      </h4>
+                      <p className="text-white/60 font-mono text-sm">JSON</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div className="flex justify-center gap-6">
                 <SocialLink
@@ -154,18 +180,21 @@ const SocialLink = ({
 }: {
   icon: React.ReactNode;
   href: string;
-}) => (
-  <motion.a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    whileHover={{
-      scale: 1.1,
-      color: "#fff",
-      borderColor: "rgba(255,255,255,0.5)",
-    }}
-    className="p-4 rounded-full bg-white/5 text-white/50 border border-white/5 transition-colors"
-  >
-    {icon}
-  </motion.a>
-);
+}) => {
+  const isMailto = href.startsWith("mailto:");
+  return (
+    <motion.a
+      href={href}
+      target={isMailto ? undefined : "_blank"}
+      rel={isMailto ? undefined : "noopener noreferrer"}
+      whileHover={{
+        scale: 1.1,
+        color: "#fff",
+        borderColor: "rgba(255,255,255,0.5)",
+      }}
+      className="p-4 rounded-full bg-white/5 text-white/50 border border-white/5 transition-colors"
+    >
+      {icon}
+    </motion.a>
+  );
+};
