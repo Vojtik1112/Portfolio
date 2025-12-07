@@ -7,7 +7,7 @@ type View = "home" | "work" | "about";
 interface NavbarProps {
   activeView: View;
   onNavigate: (view: View) => void;
-}
+} 
 
 export function Navbar({ activeView, onNavigate }: NavbarProps) {
   const navItems: View[] = ["home", "work", "about"];
