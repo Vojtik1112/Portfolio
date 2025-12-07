@@ -1,4 +1,5 @@
 import { Loader } from "@/components/Loader";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
@@ -91,6 +92,7 @@ export default function RootLayout({
         <Loader />
 
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
