@@ -1,15 +1,16 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
+import { SocialLink } from "@/components/SocialLink";
 import { SmokedGlass } from "@/components/ui/SmokedGlass";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Github, Instagram, Mail } from "lucide-react";
 import { useState } from "react";
 
 type View = "home" | "work" | "about";
 
 // Animation Variants
-const contentVariants: any = {
+const contentVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -19,7 +20,7 @@ const contentVariants: any = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.5 } },
 };
 
-const staggerChildren: any = {
+const staggerChildren: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -30,7 +31,7 @@ const staggerChildren: any = {
   },
 };
 
-const fadeInUp: any = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
@@ -84,7 +85,7 @@ export default function Page() {
               variants={fadeInUp}
               className="text-xl text-white/80 font-light italic max-w-lg mx-auto"
             >
-              "Genius, Billionaire, Playboy, Philanthropist."
+              &quot;Genius, Billionaire, Playboy, Philanthropist.&quot;
             </motion.p>
           </motion.div>
         )}
@@ -222,28 +223,3 @@ export default function Page() {
     </main>
   );
 }
-
-const SocialLink = ({
-  icon,
-  href,
-}: {
-  icon: React.ReactNode;
-  href: string;
-}) => {
-  const isMailto = href.startsWith("mailto:");
-  return (
-    <motion.a
-      href={href}
-      target={isMailto ? undefined : "_blank"}
-      rel={isMailto ? undefined : "noopener noreferrer"}
-      whileHover={{
-        scale: 1.1,
-        color: "#fff",
-        borderColor: "rgba(255,255,255,0.5)",
-      }}
-      className="p-4 rounded-full bg-white/5 text-white/50 border border-white/5 transition-colors"
-    >
-      {icon}
-    </motion.a>
-  );
-};
