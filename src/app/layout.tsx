@@ -1,15 +1,17 @@
-import LiquidBackground from "@/components/canvas/LiquidBackground";
+import PhysarumBackground from "@/components/canvas/PhysarumBackground";
 import { Loader } from "@/components/Loader";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Dark Liquid Portfolio",
+  title: "Vojta Novak | Creative Developer",
   description:
-    "A showcase of high-end web development with liquid chrome aesthetics.",
+    "Portfolio of Vojta Novak, a creative developer specializing in high-performance web interfaces.",
 };
 
 export default function RootLayout({
@@ -22,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} h-screen w-screen overflow-hidden bg-black text-white antialiased`}
       >
-        <LiquidBackground />
+        <PhysarumBackground />
         <Loader />
         {children}
       </body>

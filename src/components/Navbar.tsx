@@ -9,7 +9,7 @@ interface NavbarProps {
   onNavigate: (view: View) => void;
 }
 
-export const Navbar = ({ activeView, onNavigate }: NavbarProps) => {
+export function Navbar({ activeView, onNavigate }: NavbarProps) {
   const navItems: View[] = ["home", "work", "about"];
 
   return (
@@ -32,4 +32,4 @@ export const Navbar = ({ activeView, onNavigate }: NavbarProps) => {
       </SmokedGlass>
     </nav>
   );
-};
+}

@@ -4,28 +4,43 @@ import { Navbar } from "@/components/Navbar";
 import { ProjectCard } from "@/components/ProjectCard";
 import { SmokedGlass } from "@/components/ui/SmokedGlass";
 import { AnimatePresence, motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Instagram, Mail } from "lucide-react";
 import { useState } from "react";
 
 type View = "home" | "work" | "about";
 
-const contentVariants = {
-  hidden: { opacity: 0, scale: 0.95, filter: "blur(10px)" },
+// Animation Variants
+const contentVariants: any = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.5 },
+    y: 0,
+    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1.0] },
   },
-  exit: {
-    opacity: 0,
-    scale: 1.05,
-    filter: "blur(10px)",
-    transition: { duration: 0.3 },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.5 } },
+};
+
+const staggerChildren: any = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
   },
 };
 
-export default function Home() {
+const fadeInUp: any = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1.0] },
+  },
+};
+
+export default function Page() {
   const [view, setView] = useState<View>("home");
 
   return (
@@ -36,18 +51,25 @@ export default function Home() {
         {view === "home" && (
           <motion.div
             key="home"
-            variants={contentVariants}
+            variants={staggerChildren}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="flex flex-col items-center text-center max-w-4xl"
+            className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4"
           >
-            <h1 className="text-8xl md:text-[12rem] font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/20 mb-8 leading-none select-none">
-              VOJTIK
-            </h1>
-            <p className="text-xl md:text-2xl text-white/60 tracking-[0.5em] uppercase font-light">
+            <motion.h1
+              variants={fadeInUp}
+              className="text-6xl md:text-8xl font-black tracking-tighter mb-6 bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent"
+            >
+              Vojta Novak
+            </motion.h1>
+
+            <motion.p
+              variants={fadeInUp}
+              className="text-lg md:text-2xl text-white/60 tracking-widest uppercase mb-10"
+            >
               Creative Developer
-            </p>
+            </motion.p>
           </motion.div>
         )}
 
@@ -101,9 +123,18 @@ export default function Home() {
               </p>
 
               <div className="flex justify-center gap-6">
-                <SocialLink icon={<Github />} href="#" />
-                <SocialLink icon={<Mail />} href="#" />
-                <SocialLink icon={<Linkedin />} href="#" />
+                <SocialLink
+                  icon={<Github />}
+                  href="https://github.com/Vojtik1112"
+                />
+                <SocialLink
+                  icon={<Instagram />}
+                  href="https://www.instagram.com/schizvojta/"
+                />
+                <SocialLink
+                  icon={<Mail />}
+                  href="mailto:vojtechnovak84@gmail.com"
+                />
               </div>
             </SmokedGlass>
           </motion.div>
@@ -126,6 +157,8 @@ const SocialLink = ({
 }) => (
   <motion.a
     href={href}
+    target="_blank"
+    rel="noopener noreferrer"
     whileHover={{
       scale: 1.1,
       color: "#fff",
