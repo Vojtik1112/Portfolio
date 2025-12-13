@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vojta Novak - Portfolio
+
+A high-performance 3D portfolio website built with Next.js 14.
+
+## Features
+
+- **3D Background**: Immersive "Smoked Glass" aesthetic with deferred Spline 3D integration.
+- **Performance**: Optimized for 90+ Lighthouse score (LCP < 2.5s, TBT ~0ms).
+- **Tech Stack**:
+  - Next.js 14
+  - TypeScript
+  - Tailwind CSS
+  - Framer Motion
+  - Spline (3D Embed)
 
 ## Getting Started
 
-First, run the development server:
+1.  Install dependencies:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    npm install
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    npm run dev
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  Build for production:
+    ```bash
+    npm run build
+    ```
 
-## Learn More
+## Performance Optimizations
 
-To learn more about Next.js, take a look at the following resources:
+- **Deferred Loading**: The heavy 3D background waits 1.5s after page load to initialize, preventing main thread blocking.
+- **Asset Optimization**: Unused 3D libraries (`three`, `@react-three/fiber`) were removed to minimize bundle size.
+- **Lazy Loading**: Iframes and heavy assets use `loading="lazy"`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).
