@@ -13,6 +13,8 @@ A high-performance 3D portfolio website built with Next.js 14.
   - Framer Motion
   - Spline (3D Embed)
 
+> **Note**: This portfolio is designed for **Desktop Experience Only**. Mobile devices will see a restricted view to ensure performance and intended design.
+
 ## Getting Started
 
 1.  Install dependencies:

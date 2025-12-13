@@ -73,6 +73,10 @@ const jsonLd = {
   },
 };
 
+import { MobileBlocker } from "@/components/MobileBlocker";
+// ... imports
+
+// Inside RootLayout
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -87,9 +91,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SplineBackground />
 
-        {children}
+        {/* Mobile Blocker - Visible only on mobile */}
+        <MobileBlocker />
+
+        {/* Global Background - Visible on Desktop */}
+        <div className="hidden md:block">
+          <SplineBackground />
+        </div>
+
+        {/* Main Content - Visible only on desktop */}
+        <div className="hidden md:block">{children}</div>
+
         <SpeedInsights />
       </body>
     </html>
