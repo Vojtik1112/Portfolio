@@ -1,4 +1,3 @@
-import { Loader } from "@/components/Loader";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -89,7 +88,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <SplineBackground />
-        <Loader />
 
         {children}
         <SpeedInsights />
