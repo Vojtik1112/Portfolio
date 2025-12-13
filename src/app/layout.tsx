@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const PhysarumBackground = dynamic(
-  () => import("@/components/canvas/PhysarumBackground"),
+const SplineBackground = dynamic(
+  () => import("@/components/canvas/SplineBackground"),
   { ssr: false }
 );
 
@@ -88,7 +88,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <PhysarumBackground />
+        <SplineBackground />
         <Loader />
 
         {children}
