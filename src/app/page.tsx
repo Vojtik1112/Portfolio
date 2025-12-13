@@ -57,36 +57,40 @@ export default function Page() {
             exit="exit"
             className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-4"
           >
-            <motion.h1
-              variants={fadeInUp}
-              className="text-6xl md:text-8xl font-black tracking-tighter mb-6 bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent"
-            >
-              Vojta Novak
-            </motion.h1>
+            <div className="relative z-10 p-8 md:p-12 max-w-4xl mx-auto">
+              <motion.div
+                variants={fadeInUp}
+                className="inline-flex flex-col items-center"
+              >
+                {/* Available Badge */}
+                <div className="mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 backdrop-blur-sm shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] md:text-xs text-emerald-300 font-semibold uppercase tracking-[0.2em]">
+                    Available for Work
+                  </span>
+                </div>
 
-            <motion.p
-              variants={fadeInUp}
-              className="text-lg md:text-2xl text-white/60 tracking-widest uppercase mb-6"
-            >
-              IT Student
-            </motion.p>
+                {/* Main Hero Text */}
+                <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-4 text-white drop-shadow-2xl">
+                  Vojta<span className="text-white/40">.</span>Novak
+                </h1>
 
-            <motion.div
-              variants={fadeInUp}
-              className="mb-10 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20"
-            >
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs text-green-400 font-medium uppercase tracking-wider">
-                Available for Freelancing
-              </span>
-            </motion.div>
+                {/* Subtitle */}
+                <p className="text-sm md:text-base text-white/50 font-mono tracking-[0.5em] uppercase mb-12 border-b border-white/10 pb-4">
+                  Full Stack Developer
+                </p>
 
-            <motion.p
-              variants={fadeInUp}
-              className="text-xl text-white/80 font-light italic max-w-lg mx-auto"
-            >
-              &quot;Genius, Billionaire, Playboy, Philanthropist.&quot;
-            </motion.p>
+                {/* Glass Quote Card */}
+                <SmokedGlass className="max-w-md mx-auto !bg-black/40 !border-white/5 !backdrop-blur-xl">
+                  <p className="text-lg md:text-xl text-white/80 font-light italic leading-relaxed">
+                    &quot;Genius, Billionaire, Playboy, Philanthropist.&quot;
+                  </p>
+                </SmokedGlass>
+              </motion.div>
+            </div>
           </motion.div>
         )}
 
@@ -161,56 +165,113 @@ export default function Page() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="max-w-2xl w-full my-auto"
+            className="max-w-3xl w-full my-auto px-4"
           >
-            <SmokedGlass className="text-center py-12 px-8 md:py-20 md:px-12 border-white/20 bg-black/60">
-              <h2 className="text-4xl font-bold mb-8 text-white">Contact Me</h2>
+            <SmokedGlass className="relative overflow-hidden p-8 md:p-12 border-white/10 bg-black/60 shadow-2xl backdrop-blur-2xl rounded-3xl">
+              {/* Decorative Glow */}
+              <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-purple-500/20 blur-[100px] rounded-full pointer-events-none" />
+              <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
 
-              <div className="mb-12 space-y-8">
-                <div className="text-left">
-                  <h3 className="text-sm font-bold text-white/40 uppercase tracking-widest mb-4 border-b border-white/10 pb-2">
-                    Tech Stack
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                      <h4 className="text-white/80 text-xs uppercase mb-2">
-                        Systems
-                      </h4>
-                      <p className="text-white/60 font-mono text-sm">
-                        C++, C#, PHP
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-white/80 text-xs uppercase mb-2">
-                        Frontend
-                      </h4>
-                      <p className="text-white/60 font-mono text-sm">
-                        HTML, CSS, JS
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-white/80 text-xs uppercase mb-2">
-                        Data
-                      </h4>
-                      <p className="text-white/60 font-mono text-sm">JSON</p>
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                {/* Left Column: Profile & Connect */}
+                <div className="flex flex-col justify-between space-y-8">
+                  <div>
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-4">
+                      Let&apos;s
+                      <br />
+                      Connect
+                    </h2>
+                    <p className="text-white/60 font-light leading-relaxed max-w-sm">
+                      I&apos;m currently open to new opportunities and
+                      collaborations. Whether you have a question or just want
+                      to say hi, I&apos;ll try my best to get back to you!
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    <SocialLink
+                      icon={<Github className="w-5 h-5" />}
+                      href="https://github.com/Vojtik1112"
+                    />
+                    <SocialLink
+                      icon={<Instagram className="w-5 h-5" />}
+                      href="https://www.instagram.com/schizvojta/"
+                    />
+                    <SocialLink
+                      icon={<Mail className="w-5 h-5" />}
+                      href="mailto:vojtechnovak84@gmail.com"
+                    />
+                  </div>
+                </div>
+
+                {/* Right Column: Skills Matrix */}
+                <div className="space-y-8 border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-12">
+                  <div>
+                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                      <span className="w-8 h-[1px] bg-white/20"></span>
+                      Tech Stack
+                    </h3>
+
+                    <div className="space-y-6">
+                      {/* Systems */}
+                      <div>
+                        <span className="text-[10px] text-white/30 uppercase tracking-wider font-mono mb-3 block">
+                          Core & Systems
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {["C++", "C#", "PHP", "Python"].map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-3 py-1 text-xs font-mono text-white/80 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:border-white/20 transition-all cursor-default"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Frontend */}
+                      <div>
+                        <span className="text-[10px] text-white/30 uppercase tracking-wider font-mono mb-3 block">
+                          Frontend & Design
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            "React",
+                            "Next.js",
+                            "Tailwind",
+                            "Framer Motion",
+                            "Spline",
+                          ].map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-3 py-1 text-xs font-mono text-purple-200/80 bg-purple-500/5 border border-purple-500/10 rounded-full hover:bg-purple-500/10 hover:border-purple-500/20 transition-all cursor-default"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Data */}
+                      <div>
+                        <span className="text-[10px] text-white/30 uppercase tracking-wider font-mono mb-3 block">
+                          Data & Tools
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {["JSON", "XML", "Git", "VS Code"].map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-3 py-1 text-xs font-mono text-blue-200/80 bg-blue-500/5 border border-blue-500/10 rounded-full hover:bg-blue-500/10 hover:border-blue-500/20 transition-all cursor-default"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex justify-center gap-6">
-                <SocialLink
-                  icon={<Github />}
-                  href="https://github.com/Vojtik1112"
-                />
-                <SocialLink
-                  icon={<Instagram />}
-                  href="https://www.instagram.com/schizvojta/"
-                />
-                <SocialLink
-                  icon={<Mail />}
-                  href="mailto:vojtechnovak84@gmail.com"
-                />
               </div>
             </SmokedGlass>
           </motion.div>
