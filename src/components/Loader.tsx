@@ -1,27 +1,34 @@
 "use client";
-import { useProgress } from "@react-three/drei";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export const Loader = () => {
-  const { progress, total } = useProgress();
   const [show, setShow] = useState(true);
+  const [progress, setProgress] = useState(0);
 
-  // Smooth unmounting
+  // Fake loading progress since we removed Three.js loader
   useEffect(() => {
-    // If loading is complete (100%) OR there are no assets to load (total === 0), typical for procedural scenes
-    if (progress === 100 || total === 0) {
-      // Small delay to ensure smooth exit
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        // Random increment for organic feel
+        return prev + Math.random() * 15;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Smooth unmounting when complete
+  useEffect(() => {
+    if (progress >= 100) {
       const t = setTimeout(() => setShow(false), 500);
       return () => clearTimeout(t);
     }
-  }, [progress, total]);
-
-  // Safety fallback: Force close after 5 seconds if something gets stuck
-  useEffect(() => {
-    const t = setTimeout(() => setShow(false), 5000);
-    return () => clearTimeout(t);
-  }, []);
+  }, [progress]);
 
   return (
     <AnimatePresence>
@@ -40,6 +47,9 @@ export const Loader = () => {
                 animate={{ width: `${progress}%` }}
               />
             </div>
+            <p className="text-xs text-white/40 font-mono tracking-widest uppercase">
+              Loading System...
+            </p>
           </div>
         </motion.div>
       )}

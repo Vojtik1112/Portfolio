@@ -9,6 +9,7 @@ export default function SplineBackground() {
         id="aura-spline"
         className="border-none w-full h-full"
         title="Spline 3D Background"
+        loading="lazy"
       />
     </div>
   );
